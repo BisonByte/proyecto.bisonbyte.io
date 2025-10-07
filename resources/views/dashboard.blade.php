@@ -666,264 +666,281 @@
 
     <div
         data-calculator-panel
-        class="fixed inset-0 z-50 hidden items-center justify-center px-3 py-4 sm:px-5 sm:py-6"
+        class="fixed inset-0 z-50 hidden px-3 py-6 sm:px-6"
         aria-hidden="true"
     >
-        <div data-calculator-close class="absolute inset-0 bg-slate-950/80"></div>
-        <div class="relative z-10 flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/95 shadow-xl shadow-slate-900/40 sm:max-w-4xl lg:max-w-5xl lg:max-h-[92vh]">
-            <header class="flex items-start justify-between gap-4 border-b border-slate-800 bg-slate-900/90 px-5 py-4 sm:px-6">
-                <div class="space-y-1">
-                    <p class="text-[10px] uppercase tracking-[0.3em] text-cyan-300">Calculadora termodinámica</p>
-                    <h2 class="text-lg font-semibold text-white">Análisis integral de fluidos</h2>
-                    <p class="text-xs text-slate-300">Selecciona el fluido, captura condiciones operativas y obtén propiedades clave ordenadas de forma compacta.</p>
+        <div data-calculator-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+        <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-cyan-500/20 bg-slate-950/95 shadow-[0_40px_120px_-50px_rgba(8,145,178,0.75)] ring-1 ring-white/5">
+            <header class="border-b border-white/10 bg-gradient-to-br from-cyan-500/10 via-slate-900/90 to-indigo-900/50 px-6 py-6 text-white sm:px-8">
+                <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                    <div class="max-w-2xl space-y-3">
+                        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zm0 3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 5zm0 8a1 1 0 100 2 1 1 0 000-2z" /></svg>
+                            Calculadora de fluidos
+                        </span>
+                        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
+                        <p class="text-sm text-slate-200/80">
+                            Ingresa las condiciones de operación y obtén un resumen profesional de propiedades críticas,
+                            tendencias y clasificaciones del fluido seleccionado.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-end gap-3 text-right">
+                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-xs text-slate-200/80 shadow-inner shadow-cyan-500/10">
+                            <p class="font-semibold uppercase tracking-[0.3em] text-cyan-100">Estado resumido</p>
+                            <p class="mt-1 text-sm font-semibold text-white" data-calculator-output="fluid-name">Selecciona un fluido</p>
+                            <p class="text-[11px] text-slate-300" data-calculator-output="fluid-summary">Los resultados aparecerán aquí al capturar tus condiciones.</p>
+                        </div>
+                        <button
+                            type="button"
+                            data-calculator-close
+                            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white transition hover:border-rose-300/60 hover:bg-rose-500/20 hover:text-rose-100"
+                            aria-label="Cerrar calculadora"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 8.586l3.536-3.535a1 1 0 111.414 1.414L11.414 10l3.536 3.535a1 1 0 01-1.414 1.414L10 11.414l-3.535 3.535a1 1 0 01-1.414-1.414L8.586 10 5.05 6.465a1 1 0 111.414-1.414L10 8.586z" clip-rule="evenodd" /></svg>
+                            Cerrar panel
+                        </button>
+                    </div>
                 </div>
-                <button
-                    type="button"
-                    data-calculator-close
-                    class="inline-flex items-center gap-1 rounded-full border border-slate-700 bg-slate-800 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-200 transition hover:border-rose-400 hover:bg-rose-500/20 hover:text-rose-100"
-                    aria-label="Cerrar calculadora"
-                >
-                    Cerrar
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 8.586l3.536-3.535a1 1 0 111.414 1.414L11.414 10l3.536 3.535a1 1 0 01-1.414 1.414L10 11.414l-3.535 3.535a1 1 0 01-1.414-1.414L8.586 10 5.05 6.465a1 1 0 111.414-1.414L10 8.586z" clip-rule="evenodd" /></svg>
-                </button>
             </header>
 
             <div class="flex-1 overflow-y-auto">
-                <div class="flex flex-col gap-5 border-b border-slate-800 bg-slate-900/40 px-5 py-5 sm:px-6 sm:py-6 lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start lg:gap-6">
+                <div class="grid gap-6 border-b border-white/5 bg-slate-950/70 px-6 py-6 sm:px-8 sm:py-8 lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start">
                     <section>
-                        <form data-calculator-form class="space-y-4 sm:space-y-5">
-                            <div>
-                                <label for="calculator-fluid" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Tipo de fluido</label>
-                                <select
-                                    id="calculator-fluid"
-                                    name="fluid"
-                                    class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                        <form data-calculator-form class="space-y-6">
+                            <fieldset class="rounded-2xl border border-white/10 bg-slate-900/60 p-5 shadow-inner shadow-slate-950/60">
+                                <legend class="text-[10px] font-semibold uppercase tracking-[0.4em] text-cyan-200">Condiciones base</legend>
+                                <div class="mt-4 space-y-4">
+                                    <div>
+                                        <label for="calculator-fluid" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Tipo de fluido</label>
+                                        <select
+                                            id="calculator-fluid"
+                                            name="fluid"
+                                            class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                        >
+                                            @foreach ($calculatorFluids as $key => $label)
+                                                <option value="{{ $key }}" {{ $loop->first ? 'selected' : '' }}>{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
+                                        <div>
+                                            <label for="calculator-temperature" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Temperatura inicial (°C)</label>
+                                            <input
+                                                id="calculator-temperature"
+                                                name="temperature"
+                                                type="number"
+                                                step="0.1"
+                                                value="25"
+                                                class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                            >
+                                        </div>
+                                        <div>
+                                            <label for="calculator-temperature-target" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Temperatura final (°C)</label>
+                                            <input
+                                                id="calculator-temperature-target"
+                                                name="temperature_target"
+                                                type="number"
+                                                step="0.1"
+                                                value="35"
+                                                class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
+                                        <div>
+                                            <label for="calculator-pressure" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Presión inicial (kPa)</label>
+                                            <input
+                                                id="calculator-pressure"
+                                                name="pressure"
+                                                type="number"
+                                                step="0.1"
+                                                value="101.3"
+                                                class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                            >
+                                        </div>
+                                        <div>
+                                            <label for="calculator-pressure-target" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Presión final (kPa)</label>
+                                            <input
+                                                id="calculator-pressure-target"
+                                                name="pressure_target"
+                                                type="number"
+                                                step="0.1"
+                                                value="101.3"
+                                                class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
+                                        <div>
+                                            <label for="calculator-velocity" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Velocidad del flujo (m/s)</label>
+                                            <input
+                                                id="calculator-velocity"
+                                                name="velocity"
+                                                type="number"
+                                                step="0.01"
+                                                value="0"
+                                                class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                            >
+                                        </div>
+                                        <div>
+                                            <label for="calculator-diameter" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Diámetro interno (m)</label>
+                                            <input
+                                                id="calculator-diameter"
+                                                name="diameter"
+                                                type="number"
+                                                step="0.001"
+                                                value="0"
+                                                class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                            >
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label for="calculator-molar" class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-300">Fracción molar considerada</label>
+                                        <input
+                                            id="calculator-molar"
+                                            name="molar_fraction"
+                                            type="number"
+                                            min="0"
+                                            max="1"
+                                            step="0.05"
+                                            value="1"
+                                            class="mt-2 w-full rounded-xl border border-white/10 bg-slate-950/80 px-3.5 py-2.5 text-sm text-white/90 shadow focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
+                                        >
+                                        <p class="mt-2 text-[11px] leading-relaxed text-slate-400">Úsala para estimar presión parcial en mezclas gaseosas o escenarios con vapor saturado.</p>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-inner shadow-slate-950/40 sm:flex-row sm:items-center sm:justify-between">
+                                <p class="text-xs text-slate-300">Actualiza cualquier parámetro y recalcula al instante las propiedades del fluido.</p>
+                                <button
+                                    type="submit"
+                                    class="inline-flex items-center gap-2 rounded-full border border-cyan-400/60 bg-cyan-500/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-cyan-100 transition hover:border-cyan-300/80 hover:bg-cyan-500/25"
                                 >
-                                    @foreach ($calculatorFluids as $key => $label)
-                                        <option value="{{ $key }}" {{ $loop->first ? 'selected' : '' }}>{{ $label }}</option>
-                                    @endforeach
-                                </select>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-.75 4.75a.75.75 0 011.5 0v3.5a.75.75 0 01-1.5 0v-3.5zm.75 8.25a1 1 0 110-2 1 1 0 010 2z" /></svg>
+                                    Recalcular
+                                </button>
                             </div>
-
-                            <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
-                                <div>
-                                    <label for="calculator-temperature" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Temperatura inicial (°C)</label>
-                                    <input
-                                        id="calculator-temperature"
-                                        name="temperature"
-                                        type="number"
-                                        step="0.1"
-                                        value="25"
-                                        class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                    >
-                                </div>
-                                <div>
-                                    <label for="calculator-temperature-target" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Temperatura final (°C)</label>
-                                    <input
-                                        id="calculator-temperature-target"
-                                        name="temperature_target"
-                                        type="number"
-                                        step="0.1"
-                                        value="35"
-                                        class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                    >
-                                </div>
-                            </div>
-
-                            <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
-                                <div>
-                                    <label for="calculator-pressure" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Presión inicial (kPa)</label>
-                                    <input
-                                        id="calculator-pressure"
-                                        name="pressure"
-                                        type="number"
-                                        step="0.1"
-                                        value="101.3"
-                                        class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                    >
-                                </div>
-                                <div>
-                                    <label for="calculator-pressure-target" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Presión final (kPa)</label>
-                                    <input
-                                        id="calculator-pressure-target"
-                                        name="pressure_target"
-                                        type="number"
-                                        step="0.1"
-                                        value="120"
-                                        class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                    >
-                                </div>
-                            </div>
-
-                            <div class="grid gap-3 sm:grid-cols-2 sm:gap-4">
-                                <div>
-                                    <label for="calculator-velocity" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Velocidad del flujo (m/s)</label>
-                                    <input
-                                        id="calculator-velocity"
-                                        name="velocity"
-                                        type="number"
-                                        step="0.01"
-                                        value="1.20"
-                                        class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                    >
-                                </div>
-                                <div>
-                                    <label for="calculator-diameter" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Diámetro interno (m)</label>
-                                    <input
-                                        id="calculator-diameter"
-                                        name="diameter"
-                                        type="number"
-                                        step="0.001"
-                                        value="0.05"
-                                        class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                    >
-                                </div>
-                            </div>
-
-                            <div>
-                                <label for="calculator-molar" class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Fracción molar considerada</label>
-                                <input
-                                    id="calculator-molar"
-                                    name="molar_fraction"
-                                    type="number"
-                                    min="0"
-                                    max="1"
-                                    step="0.05"
-                                    value="1"
-                                    class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-2 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
-                                >
-                                <p class="mt-1 text-[11px] text-slate-400">Úsala para estimar la presión parcial en mezclas gaseosas o vapor saturado.</p>
-                            </div>
-
-                            <button
-                                type="submit"
-                                class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-.75 4.75a.75.75 0 011.5 0v3.5a.75.75 0 01-1.5 0v-3.5zm.75 8.25a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                                Recalcular ahora
-                            </button>
                         </form>
                     </section>
 
-                    <section class="space-y-3.5 sm:space-y-4">
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
-                            <div class="flex items-start justify-between gap-3">
-                                <div>
-                                    <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Fluido analizado</p>
-                                    <p class="text-lg font-semibold text-white" data-calculator-output="fluid-name">Selecciona un fluido</p>
-                                    <p class="text-xs text-slate-300" data-calculator-output="fluid-summary">Los resultados aparecerán aquí al capturar tus condiciones.</p>
+                    <section class="space-y-6">
+                        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5 shadow-lg shadow-cyan-500/10">
+                            <div class="flex flex-wrap items-center justify-between gap-4">
+                                <div class="space-y-2">
+                                    <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Clasificación del fluido</p>
+                                    <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/80" data-calculator-output="fluid-type">---</span>
                                 </div>
-                                <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/70" data-calculator-output="fluid-type">---</span>
+                                <div class="text-right">
+                                    <p class="text-xs text-slate-300">Número de Reynolds</p>
+                                    <p class="text-lg font-semibold text-white" data-calculator-output="reynolds">—</p>
+                                </div>
+                            </div>
+                            <p class="mt-3 text-sm font-semibold text-white" data-calculator-output="flow-regime">—</p>
+                            <p class="mt-2 text-xs text-slate-300" data-calculator-output="flow-note">Captura velocidad y diámetro para evaluar el régimen laminar o turbulento.</p>
+                        </div>
+
+                        <div class="grid gap-5 lg:grid-cols-2">
+                            <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+                                <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Propiedades termodinámicas</p>
+                                <dl class="mt-4 grid gap-3 text-sm text-slate-200">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Densidad</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="density">—</span> kg/m³</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Volumen específico</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="specific-volume">—</span> m³/kg</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Peso específico</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="specific-weight">—</span> kN/m³</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Viscosidad dinámica</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="dynamic-viscosity">—</span> Pa·s</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Viscosidad cinemática</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="kinematic-viscosity">—</span> m²/s</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3 lg:col-span-2">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400" data-calculator-output="compressibility-label">Compresibilidad</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="compressibility">—</span></dd>
+                                    </div>
+                                </dl>
+                            </div>
+
+                            <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+                                <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Presiones derivadas</p>
+                                <dl class="mt-4 grid gap-3 text-sm text-slate-200">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Ecuación de estado</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="pressure-eos">—</span> kPa</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión parcial</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="partial-pressure">—</span> kPa</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión de vapor</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="vapor-pressure">—</span> kPa</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between gap-3">
+                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión de saturación</dt>
+                                        <dd class="font-semibold text-white"><span data-calculator-output="saturation-pressure">—</span> kPa</dd>
+                                    </div>
+                                </dl>
                             </div>
                         </div>
 
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
-                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Propiedades termodinámicas</p>
-                            <div class="mt-3 grid gap-3 sm:grid-cols-2">
-                                <div>
-                                    <p class="text-xs text-slate-400">Densidad</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="density">—</span> kg/m³</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Volumen específico</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="specific-volume">—</span> m³/kg</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Peso específico</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="specific-weight">—</span> kN/m³</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Viscosidad dinámica</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="dynamic-viscosity">—</span> Pa·s</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Viscosidad cinemática</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="kinematic-viscosity">—</span> m²/s</p>
-                                </div>
-                                <div class="sm:col-span-2">
-                                    <p class="text-xs text-slate-400" data-calculator-output="compressibility-label">Compresibilidad</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="compressibility">—</span></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
-                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Presiones derivadas</p>
-                            <div class="mt-3 grid gap-3 sm:grid-cols-2">
-                                <div>
-                                    <p class="text-xs text-slate-400">Presión (ecuación de estado)</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="pressure-eos">—</span> kPa</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Presión parcial</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="partial-pressure">—</span> kPa</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Presión de vapor</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="vapor-pressure">—</span> kPa</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Presión de saturación</p>
-                                    <p class="text-sm font-semibold text-white"><span data-calculator-output="saturation-pressure">—</span> kPa</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
-                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Clasificación del fluido</p>
-                            <ul class="mt-3 space-y-2 text-sm text-slate-200">
+                        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+                            <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Lectura operativa</p>
+                            <ul class="mt-4 space-y-3 text-sm text-slate-200">
                                 <li data-calculator-output="classification-viscosity">—</li>
                                 <li data-calculator-output="classification-compressibility">—</li>
                                 <li data-calculator-output="classification-rheology">—</li>
                             </ul>
                         </div>
 
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
-                            <div class="flex flex-wrap items-center justify-between gap-3">
-                                <div>
-                                    <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Régimen de flujo</p>
-                                    <p class="text-lg font-semibold text-white" data-calculator-output="flow-regime">—</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-400">Número de Reynolds</p>
-                                    <p class="text-sm font-semibold text-white" data-calculator-output="reynolds">—</p>
-                                </div>
+                        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+                            <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Variaciones registradas</p>
+                            <div class="mt-4 space-y-2 text-sm text-slate-200">
+                                <p data-calculator-output="temperature-variation">—</p>
+                                <p data-calculator-output="pressure-variation">—</p>
+                                <p data-calculator-output="property-variation">—</p>
                             </div>
-                            <p class="mt-3 text-xs text-slate-400" data-calculator-output="flow-note">Captura velocidad y diámetro para evaluar el régimen laminar o turbulento.</p>
                         </div>
 
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4 space-y-2">
-                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Variaciones registradas</p>
-                            <p class="text-sm text-slate-200" data-calculator-output="temperature-variation">—</p>
-                            <p class="text-sm text-slate-200" data-calculator-output="pressure-variation">—</p>
-                            <p class="text-sm text-slate-200" data-calculator-output="property-variation">—</p>
-                        </div>
-
-                        <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
-                            <p class="text-[10px] uppercase tracking-[0.3em] text-slate-400">Procesos de referencia</p>
-                            <ul class="mt-3 space-y-2 text-sm text-slate-200" data-calculator-output="process-list"></ul>
+                        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
+                            <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Procesos de referencia</p>
+                            <ul class="mt-4 space-y-3 text-sm text-slate-200" data-calculator-output="process-list"></ul>
                         </div>
                     </section>
                 </div>
 
-                <div class="px-5 py-5 sm:px-6 sm:py-6">
-                    <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3.5 sm:p-4">
+                <div class="px-6 pb-6 sm:px-8 sm:pb-8">
+                    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5 shadow-inner shadow-slate-950/50">
                         <button
                             type="button"
                             data-calculator-table-toggle
-                            class="flex w-full items-center justify-between gap-3 rounded-lg border border-slate-700 bg-slate-900/70 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-200 transition hover:border-cyan-400 hover:text-cyan-100"
+                            class="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-slate-950/70 px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.25em] text-slate-100 transition hover:border-cyan-300/60 hover:text-cyan-100"
                             aria-expanded="false"
                         >
                             <span>Ver tablas de referencia</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.939l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0l-4.25-4.25a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>
                         </button>
 
-                        <div data-calculator-tables class="mt-4 hidden space-y-6 text-sm text-slate-200">
+                        <div data-calculator-tables class="mt-5 hidden space-y-6 text-sm text-slate-100">
                             <div>
-                                <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Tabla B.1 • Fluidos en unidades SI</h3>
-                                <div class="mt-2 overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-slate-800 text-xs">
-                                        <thead class="bg-slate-900/60 text-slate-300">
+                                <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">Tabla B.1 • Fluidos en unidades SI</h3>
+                                <div class="mt-3 overflow-x-auto rounded-xl border border-white/5">
+                                    <table class="min-w-full divide-y divide-white/10 text-xs">
+                                        <thead class="bg-slate-900/80 text-cyan-100">
                                             <tr>
                                                 <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Fluido</th>
                                                 <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">sg</th>
@@ -933,9 +950,9 @@
                                                 <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">ν (m²/s)</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="divide-y divide-slate-800">
+                                        <tbody class="divide-y divide-white/5">
                                             @foreach ($thermoTables['fluids'] as $row)
-                                                <tr>
+                                                <tr class="hover:bg-slate-900/60">
                                                     <td class="px-3 py-2">{{ $row['name'] }}</td>
                                                     <td class="px-3 py-2">{{ $row['sg'] }}</td>
                                                     <td class="px-3 py-2">{{ $row['gamma'] }}</td>
@@ -951,10 +968,10 @@
 
                             <div class="grid gap-6 lg:grid-cols-2">
                                 <div>
-                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Tabla A.1 • Propiedades del agua (SI)</h3>
-                                    <div class="mt-2 overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-slate-800 text-xs">
-                                            <thead class="bg-slate-900/60 text-slate-300">
+                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">Tabla A.1 • Propiedades del agua (SI)</h3>
+                                    <div class="mt-3 overflow-x-auto rounded-xl border border-white/5">
+                                        <table class="min-w-full divide-y divide-white/10 text-xs">
+                                            <thead class="bg-slate-900/80 text-cyan-100">
                                                 <tr>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">T (°C)</th>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">γ (kN/m³)</th>
@@ -963,9 +980,9 @@
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">ν (m²/s)</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-slate-800">
+                                            <tbody class="divide-y divide-white/5">
                                                 @foreach ($thermoTables['water_si'] as $row)
-                                                    <tr>
+                                                    <tr class="hover:bg-slate-900/60">
                                                         <td class="px-3 py-2">{{ $row['t'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['gamma'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['rho'] }}</td>
@@ -978,10 +995,10 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Tabla A.2 • Propiedades del agua (Sistema Inglés)</h3>
-                                    <div class="mt-2 overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-slate-800 text-xs">
-                                            <thead class="bg-slate-900/60 text-slate-300">
+                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">Tabla A.2 • Propiedades del agua (Sistema Inglés)</h3>
+                                    <div class="mt-3 overflow-x-auto rounded-xl border border-white/5">
+                                        <table class="min-w-full divide-y divide-white/10 text-xs">
+                                            <thead class="bg-slate-900/80 text-cyan-100">
                                                 <tr>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">T (°F)</th>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">γ (lb/pie³)</th>
@@ -990,9 +1007,9 @@
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">ν (pie²/s)</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-slate-800">
+                                            <tbody class="divide-y divide-white/5">
                                                 @foreach ($thermoTables['water_imperial'] as $row)
-                                                    <tr>
+                                                    <tr class="hover:bg-slate-900/60">
                                                         <td class="px-3 py-2">{{ $row['t'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['gamma'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['rho'] }}</td>
@@ -1008,10 +1025,10 @@
 
                             <div class="grid gap-6 lg:grid-cols-2">
                                 <div>
-                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Tabla E.1 • Aire a presión atmosférica (SI)</h3>
-                                    <div class="mt-2 overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-slate-800 text-xs">
-                                            <thead class="bg-slate-900/60 text-slate-300">
+                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">Tabla E.1 • Aire a presión atmosférica (SI)</h3>
+                                    <div class="mt-3 overflow-x-auto rounded-xl border border-white/5">
+                                        <table class="min-w-full divide-y divide-white/10 text-xs">
+                                            <thead class="bg-slate-900/80 text-cyan-100">
                                                 <tr>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">T (°C)</th>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">γ (N/m³)</th>
@@ -1020,9 +1037,9 @@
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">ν (m²/s)</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-slate-800">
+                                            <tbody class="divide-y divide-white/5">
                                                 @foreach ($thermoTables['air_si'] as $row)
-                                                    <tr>
+                                                    <tr class="hover:bg-slate-900/60">
                                                         <td class="px-3 py-2">{{ $row['t'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['gamma'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['rho'] }}</td>
@@ -1035,10 +1052,10 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">Tabla E.2 • Aire a presión atmosférica (Sistema Inglés)</h3>
-                                    <div class="mt-2 overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-slate-800 text-xs">
-                                            <thead class="bg-slate-900/60 text-slate-300">
+                                    <h3 class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-200">Tabla E.2 • Aire a presión atmosférica (Sistema Inglés)</h3>
+                                    <div class="mt-3 overflow-x-auto rounded-xl border border-white/5">
+                                        <table class="min-w-full divide-y divide-white/10 text-xs">
+                                            <thead class="bg-slate-900/80 text-cyan-100">
                                                 <tr>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">T (°F)</th>
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">ρ (slug/pie³)</th>
@@ -1047,9 +1064,9 @@
                                                     <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">ν (pie²/s)</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-slate-800">
+                                            <tbody class="divide-y divide-white/5">
                                                 @foreach ($thermoTables['air_imperial'] as $row)
-                                                    <tr>
+                                                    <tr class="hover:bg-slate-900/60">
                                                         <td class="px-3 py-2">{{ $row['t'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['rho'] }}</td>
                                                         <td class="px-3 py-2">{{ $row['gamma'] }}</td>
@@ -1068,6 +1085,7 @@
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 

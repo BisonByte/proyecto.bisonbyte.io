@@ -1288,6 +1288,10 @@ if (root) {
                 handleCalculatorUpdate();
             });
 
+            selectors.calculatorForm.addEventListener('change', () => {
+                handleCalculatorUpdate();
+            });
+
             handleCalculatorUpdate();
         }
 
