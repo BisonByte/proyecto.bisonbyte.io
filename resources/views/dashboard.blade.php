@@ -671,34 +671,60 @@
     >
         <div data-calculator-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
         <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-cyan-500/20 bg-slate-950/95 shadow-[0_40px_120px_-50px_rgba(8,145,178,0.75)] ring-1 ring-white/5">
-            <header class="border-b border-white/10 bg-gradient-to-br from-cyan-500/10 via-slate-900/90 to-indigo-900/50 px-8 py-8 text-white sm:px-10 sm:py-9">
-                <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+            <header class="border-b border-white/10 bg-gradient-to-br from-cyan-500/15 via-slate-900/95 to-indigo-900/60 px-8 py-8 text-white shadow-[inset_0_-1px_0_0_rgba(148,163,184,0.25)] sm:px-10 sm:py-9">
+                <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:items-start lg:gap-14">
                     <div class="max-w-2xl space-y-4">
                         <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-100">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zm0 3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 5zm0 8a1 1 0 100 2 1 1 0 000-2z" /></svg>
                             Calculadora de fluidos
                         </span>
                         <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
-                        <p class="text-sm leading-relaxed text-slate-200/80">
+                        <p class="text-sm leading-relaxed text-slate-100/80">
                             Ingresa las condiciones de operación y obtén un resumen profesional de propiedades críticas,
                             tendencias y clasificaciones del fluido seleccionado.
                         </p>
+                        <dl class="mt-6 grid gap-5 rounded-2xl border border-white/10 bg-slate-950/40 p-6 text-xs text-slate-200/80 shadow-lg shadow-cyan-500/10 sm:grid-cols-2">
+                            <div class="space-y-1">
+                                <dt class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-200">
+                                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.144 3.528a1 1 0 011.712 0l6 10.5A1 1 0 0116.01 15H3.99a1 1 0 01-.846-1.472l6-10.5zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-.25-6.75a.75.75 0 10-1.5 0v3.5a.75.75 0 001.5 0v-3.5z" clip-rule="evenodd" /></svg>
+                                    </span>
+                                    Seguridad operacional
+                                </dt>
+                                <dd class="text-[11px] leading-relaxed">Evalúa escenarios térmicos y de presión con indicadores clave calculados al instante.</dd>
+                            </div>
+                            <div class="space-y-1">
+                                <dt class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-200">
+                                    <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/20 text-cyan-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656l-6.364 6.364a.75.75 0 01-1.06 0L3.172 10.828a4 4 0 010-5.656z" /></svg>
+                                    </span>
+                                    Integridad del activo
+                                </dt>
+                                <dd class="text-[11px] leading-relaxed">Sigue la evolución del fluido y toma decisiones de mantenimiento con información curada.</dd>
+                            </div>
+                        </dl>
                     </div>
-                    <div class="flex flex-col items-end gap-4 text-right">
-                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 text-xs text-slate-200/80 shadow-inner shadow-cyan-500/10">
-                            <p class="font-semibold uppercase tracking-[0.3em] text-cyan-100">Estado resumido</p>
-                            <p class="mt-2 text-sm font-semibold text-white" data-calculator-output="fluid-name">Selecciona un fluido</p>
-                            <p class="mt-1 text-[11px] leading-relaxed text-slate-300" data-calculator-output="fluid-summary">Los resultados aparecerán aquí al capturar tus condiciones.</p>
+                    <div class="flex flex-col gap-4 lg:gap-6">
+                        <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-950/70 p-6 text-xs text-slate-200/80 shadow-xl shadow-cyan-500/20">
+                            <div class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/20 blur-3xl"></div>
+                            <p class="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm4 1a1 1 0 100 2h6a1 1 0 100-2H7zm-1 5a1 1 0 011-1h2a1 1 0 010 2H7a1 1 0 01-1-1zm1 3a1 1 0 000 2h6a1 1 0 100-2H7z" /></svg>
+                                Estado resumido
+                            </p>
+                            <p class="mt-4 text-sm font-semibold text-white" data-calculator-output="fluid-name">Selecciona un fluido</p>
+                            <p class="mt-2 text-[11px] leading-relaxed text-slate-300" data-calculator-output="fluid-summary">Los resultados aparecerán aquí al capturar tus condiciones.</p>
                         </div>
-                        <button
-                            type="button"
-                            data-calculator-close
-                            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-white transition hover:border-rose-300/60 hover:bg-rose-500/20 hover:text-rose-100"
-                            aria-label="Cerrar calculadora"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 8.586l3.536-3.535a1 1 0 111.414 1.414L11.414 10l3.536 3.535a1 1 0 01-1.414 1.414L10 11.414l-3.535 3.535a1 1 0 01-1.414-1.414L8.586 10 5.05 6.465a1 1 0 111.414-1.414L10 8.586z" clip-rule="evenodd" /></svg>
-                            Cerrar panel
-                        </button>
+                        <div class="flex justify-end">
+                            <button
+                                type="button"
+                                data-calculator-close
+                                class="inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-500/10 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.35em] text-rose-100 transition hover:border-rose-300/70 hover:bg-rose-500/20 hover:text-white"
+                                aria-label="Cerrar calculadora"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 8.586l3.536-3.535a1 1 0 111.414 1.414L11.414 10l3.536 3.535a1 1 0 01-1.414 1.414L10 11.414l-3.535 3.535a1 1 0 01-1.414-1.414L8.586 10 5.05 6.465a1 1 0 111.414-1.414L10 8.586z" clip-rule="evenodd" /></svg>
+                                Cerrar panel
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
