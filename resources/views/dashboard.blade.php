@@ -671,29 +671,93 @@
     >
         <div data-calculator-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
         <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-cyan-500/20 bg-slate-950/95 shadow-[0_40px_120px_-50px_rgba(8,145,178,0.75)] ring-1 ring-white/5">
-            <header class="border-b border-white/10 bg-gradient-to-br from-cyan-500/10 via-slate-900/90 to-indigo-900/50 px-8 py-8 text-white sm:px-10 sm:py-9">
-                <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-                    <div class="max-w-2xl space-y-4">
-                        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-cyan-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zm0 3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 5zm0 8a1 1 0 100 2 1 1 0 000-2z" /></svg>
-                            Calculadora de fluidos
-                        </span>
-                        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
-                        <p class="text-sm leading-relaxed text-slate-200/80">
-                            Ingresa las condiciones de operación y obtén un resumen profesional de propiedades críticas,
-                            tendencias y clasificaciones del fluido seleccionado.
-                        </p>
+            <header class="border-b border-white/10 bg-gradient-to-br from-cyan-500/20 via-slate-950/90 to-indigo-900/60 px-8 py-9 text-white shadow-[inset_0_-1px_0_0_rgba(148,163,184,0.25)] sm:px-10 sm:py-12">
+                <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+                    <div class="max-w-3xl space-y-8">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="inline-flex items-center gap-2 rounded-full border border-cyan-400/60 bg-cyan-500/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zm0 3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 5zm0 8a1 1 0 100 2 1 1 0 000-2z" /></svg>
+                                Calculadora de fluidos
+                            </span>
+                            <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.35em] text-white/70">
+                                Panel interactivo
+                            </span>
+                        </div>
+                        <div class="space-y-4">
+                            <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">Análisis termodinámico integral</h2>
+                            <p class="text-sm leading-relaxed text-slate-100/85">
+                                Conecta parámetros operativos, evalúa riesgos térmicos y proyecta escenarios de confiabilidad con un informe sintetizado y accionable del fluido elegido.
+                            </p>
+                        </div>
+                        <div class="grid gap-5 rounded-3xl border border-white/10 bg-slate-950/40 p-6 shadow-lg shadow-cyan-500/15 sm:grid-cols-2">
+                            <article class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-500/15 text-cyan-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M10.17 2.543a1.5 1.5 0 012.66 0l8.146 15.265A1.5 1.5 0 0119.646 20H4.354a1.5 1.5 0 01-1.33-2.192L10.17 2.543zM12 15.75a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm-.375-7.875a1.125 1.125 0 10-2.25 0v5.25a1.125 1.125 0 002.25 0v-5.25z" clip-rule="evenodd" /></svg>
+                                    </span>
+                                    <div>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Seguridad operacional</p>
+                                        <p class="text-xs text-slate-200/80">Modelos predictivos para anticipar desviaciones de presión y temperatura en segundos.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 text-[11px] text-slate-300/90">
+                                    <div class="rounded-xl border border-white/5 bg-white/5 px-3 py-2">
+                                        <p class="text-[9px] font-semibold uppercase tracking-[0.35em] text-cyan-200/80">Latencia</p>
+                                        <p class="text-sm font-semibold text-white">0.8 s</p>
+                                    </div>
+                                    <div class="rounded-xl border border-white/5 bg-white/5 px-3 py-2">
+                                        <p class="text-[9px] font-semibold uppercase tracking-[0.35em] text-cyan-200/80">Precisión</p>
+                                        <p class="text-sm font-semibold text-white">±0.5%</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="space-y-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.75 2.25a.75.75 0 00-1.5 0v1.177a6.75 6.75 0 00-6.073 6.073H4a.75.75 0 000 1.5h1.177a6.75 6.75 0 006.073 6.073V20a.75.75 0 001.5 0v-1.177a6.75 6.75 0 006.073-6.073H20a.75.75 0 000-1.5h-1.177a6.75 6.75 0 00-6.073-6.073V2.25zm0 2.677v1.823a.75.75 0 001.5 0V4.927a5.251 5.251 0 014.823 4.823h-1.823a.75.75 0 100 1.5h1.823a5.251 5.251 0 01-4.823 4.823v-1.823a.75.75 0 10-1.5 0v1.823a5.251 5.251 0 01-4.823-4.823h1.823a.75.75 0 100-1.5H7.927a5.251 5.251 0 014.823-4.823z" /></svg>
+                                    </span>
+                                    <div>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.35em] text-emerald-200">Integridad del activo</p>
+                                        <p class="text-xs text-slate-200/80">Priorización inteligente de mantenimientos con trazabilidad completa del ciclo termodinámico.</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 text-[11px] text-slate-300/90">
+                                    <div class="rounded-xl border border-white/5 bg-white/5 px-3 py-2">
+                                        <p class="text-[9px] font-semibold uppercase tracking-[0.35em] text-emerald-200/80">Estatus</p>
+                                        <p class="text-sm font-semibold text-white">Operativo</p>
+                                    </div>
+                                    <div class="rounded-xl border border-white/5 bg-white/5 px-3 py-2">
+                                        <p class="text-[9px] font-semibold uppercase tracking-[0.35em] text-emerald-200/80">SLA</p>
+                                        <p class="text-sm font-semibold text-white">99.2%</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
                     </div>
-                    <div class="flex flex-col items-end gap-4 text-right">
-                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 text-xs text-slate-200/80 shadow-inner shadow-cyan-500/10">
-                            <p class="font-semibold uppercase tracking-[0.3em] text-cyan-100">Estado resumido</p>
-                            <p class="mt-2 text-sm font-semibold text-white" data-calculator-output="fluid-name">Selecciona un fluido</p>
-                            <p class="mt-1 text-[11px] leading-relaxed text-slate-300" data-calculator-output="fluid-summary">Los resultados aparecerán aquí al capturar tus condiciones.</p>
+                    <div class="flex w-full max-w-sm flex-col gap-4 lg:max-w-xs">
+                        <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-950/75 p-6 text-xs text-slate-200/85 shadow-xl shadow-cyan-500/25">
+                            <div class="pointer-events-none absolute -right-16 -top-12 h-44 w-44 rounded-full bg-cyan-500/30 blur-3xl"></div>
+                            <div class="flex items-center justify-between gap-4">
+                                <p class="text-[10px] font-semibold uppercase tracking-[0.4em] text-cyan-200">Estado resumido</p>
+                                <span class="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.3em] text-white/70">Live</span>
+                            </div>
+                            <p class="mt-5 text-lg font-semibold text-white" data-calculator-output="fluid-name">Selecciona un fluido</p>
+                            <p class="mt-2 text-[12px] leading-relaxed text-slate-300" data-calculator-output="fluid-summary">Los resultados aparecerán aquí al capturar tus condiciones.</p>
+                            <div class="mt-5 grid gap-3 text-[11px] text-slate-300/90">
+                                <div class="flex items-center justify-between rounded-2xl border border-white/5 bg-white/5 px-3 py-2">
+                                    <span class="uppercase tracking-[0.3em]">Índice R*</span>
+                                    <span class="font-semibold text-white/90" data-calculator-output="fluid-index">—</span>
+                                </div>
+                                <div class="flex items-center justify-between rounded-2xl border border-white/5 bg-white/5 px-3 py-2">
+                                    <span class="uppercase tracking-[0.3em]">Δ Entalpía</span>
+                                    <span class="font-semibold text-white/90" data-calculator-output="fluid-enthalpy">—</span>
+                                </div>
+                            </div>
                         </div>
                         <button
                             type="button"
                             data-calculator-close
-                            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.3em] text-white transition hover:border-rose-300/60 hover:bg-rose-500/20 hover:text-rose-100"
+                            class="inline-flex items-center justify-center gap-2 rounded-full border border-rose-400/50 bg-rose-500/10 px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.4em] text-rose-100 transition hover:border-rose-300/80 hover:bg-rose-500/20 hover:text-white"
                             aria-label="Cerrar calculadora"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 8.586l3.536-3.535a1 1 0 111.414 1.414L11.414 10l3.536 3.535a1 1 0 01-1.414 1.414L10 11.414l-3.535 3.535a1 1 0 01-1.414-1.414L8.586 10 5.05 6.465a1 1 0 111.414-1.414L10 8.586z" clip-rule="evenodd" /></svg>
