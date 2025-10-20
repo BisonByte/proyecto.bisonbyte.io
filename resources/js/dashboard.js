@@ -133,7 +133,6 @@ if (root) {
         current: telemetry?.current ?? metricsSeed?.current ?? 0,
         battery: telemetry?.battery ?? metricsSeed?.battery ?? 90,
     };
-    measurement = normalizeMeasurement(measurement);
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
     const toNumber = (value, fallback = 0) => {
@@ -179,6 +178,7 @@ if (root) {
             hydraulicPower: valueOrNull(raw.hydraulicPower ?? raw.hydraulic_power ?? raw.hydraulic_power_w),
         };
     };
+    measurement = normalizeMeasurement(measurement);
     const toKelvin = (celsius) => celsius + 273.15;
     const UNIVERSAL_GAS_CONSTANT = 8.314462618;
 
@@ -1716,7 +1716,6 @@ if (root) {
         },
     };
 
-    let designerState = buildDesignerState();
     let designerDrag = { nodeId: null, offsetX: 0, offsetY: 0, pointerId: null };
     let designerPendingPipe = null;
     let designerCustomMessage = null;
@@ -1745,6 +1744,7 @@ if (root) {
                 : null,
         };
     };
+    let designerState = buildDesignerState();
 
     const getDesignerNode = (id) => designerState.nodes.find((node) => node.id === id);
     const getDesignerPipe = (id) => designerState.pipes.find((pipe) => pipe.id === id);
