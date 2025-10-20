@@ -49,7 +49,10 @@ class TelemetryStreamController extends Controller
                     @ob_flush();
                     @flush();
                     usleep(1_500_000); // 1.5 s
+                    continue;
                 }
+
+                usleep(200_000); // 0.2 s guard to reduce CPU pressure
 
                 if ((microtime(true) - $start) > 300) {
                     // close connection every 5 minutes to avoid timeouts

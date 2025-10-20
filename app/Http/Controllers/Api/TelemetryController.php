@@ -53,7 +53,11 @@ class TelemetryController extends Controller
             'payload' => Arr::except($request->all(), ['token']),
         ];
 
-        ProcessTelemetry::dispatch($jobData)->afterResponse();
+        if (config('queue.default') === 'sync') {
+            dispatch_sync(new ProcessTelemetry($jobData));
+        } else {
+            ProcessTelemetry::dispatch($jobData)->afterResponse();
+        }
 
         return response()->json([
             'queued' => true,

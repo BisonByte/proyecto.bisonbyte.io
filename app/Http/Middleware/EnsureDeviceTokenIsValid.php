@@ -29,7 +29,7 @@ class EnsureDeviceTokenIsValid
             abort(404, __('Dispositivo no encontrado.'));
         }
 
-        if (! hash_equals($device->token, $token)) {
+        if (! hash_equals($device->token, hash('sha256', $token))) {
             abort(403, __('Token inválido para el dispositivo solicitado.'));
         }
 

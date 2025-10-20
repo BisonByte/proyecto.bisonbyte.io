@@ -10,6 +10,10 @@ class DevicePumpService
     public function current(): ?Device
     {
         return Device::query()
+            ->where(function ($query): void {
+                $query->whereNull('token_expires_at')
+                    ->orWhere('token_expires_at', '>', Carbon::now());
+            })
             ->orderByDesc('last_seen_at')
             ->orderByDesc('id')
             ->first();
@@ -22,7 +26,7 @@ class DevicePumpService
 
     public function ensureTokenMatches(Device $device, string $token): bool
     {
-        return hash_equals($device->token, $token);
+        return hash_equals($device->token, hash('sha256', $token));
     }
 
     public function touch(Device $device, ?string $ip = null): Device

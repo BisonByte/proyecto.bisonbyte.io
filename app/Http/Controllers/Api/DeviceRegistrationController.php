@@ -27,10 +27,10 @@ class DeviceRegistrationController extends Controller
         $connectionType = $data['connection_type'] ?? 'http';
 
         $device = Device::where('mac', $data['mac'])->first();
+        $plainToken = Str::random(60);
+        $hashedToken = hash('sha256', $plainToken);
 
         if (! $device) {
-            $token = Str::random(60);
-
             $device = Device::create([
                 'mac' => $data['mac'],
                 'name' => $data['name'] ?? null,
@@ -38,7 +38,7 @@ class DeviceRegistrationController extends Controller
                 'ip' => $ipAddress,
                 'topic' => $data['topic'] ?? null,
                 'connection_type' => $connectionType,
-                'token' => $token,
+                'token' => $hashedToken,
                 'token_expires_at' => now()->addDays(30),
                 'last_seen_at' => now(),
                 'last_command_at' => now(),
@@ -46,13 +46,13 @@ class DeviceRegistrationController extends Controller
 
             $status = 201;
         } else {
-            $token = $device->token;
             $device->fill([
                 'name' => $data['name'] ?? $device->name,
                 'firmware' => $firmware ?? $device->firmware,
                 'ip' => $ipAddress,
                 'topic' => $data['topic'] ?? $device->topic,
                 'connection_type' => $connectionType,
+                'token' => $hashedToken,
                 'last_seen_at' => now(),
                 'token_expires_at' => now()->addDays(30),
             ]);
@@ -68,7 +68,7 @@ class DeviceRegistrationController extends Controller
 
         return response()->json([
             'device_id' => $device->id,
-            'token' => $token,
+            'token' => $plainToken,
             'connection_type' => $device->connection_type,
             'name' => $device->name,
             'token_expires_at' => optional($device->token_expires_at)->toIso8601String(),
