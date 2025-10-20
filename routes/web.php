@@ -23,6 +23,8 @@ Route::middleware('demo.auth')->group(function (): void {
     Route::post('/pump/toggle', [PumpSimulationController::class, 'toggle'])->name('pump.toggle');
     Route::get('/telemetry/stream', TelemetryStreamController::class)->name('telemetry.stream');
 
+    Route::view('/system-editor', 'system-editor')->name('system.editor');
+
     Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::put('/settings/esp32', [SettingsController::class, 'updateEsp32'])->name('settings.esp32.update');
     Route::put('/settings/demo', [SettingsController::class, 'updateDemo'])->name('settings.demo.update');
