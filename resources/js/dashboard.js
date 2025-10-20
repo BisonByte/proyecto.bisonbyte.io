@@ -389,9 +389,15 @@ if (root) {
                 return;
             }
 
+            const timeout = window.setTimeout(() => {
+                window.clearInterval(timer);
+                resolve(null);
+            }, 3000);
+
             const timer = window.setInterval(() => {
                 if (typeof window.Chart !== 'undefined') {
                     window.clearInterval(timer);
+                    window.clearTimeout(timeout);
                     resolve(window.Chart);
                 }
             }, 25);
