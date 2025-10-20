@@ -3217,8 +3217,8 @@ if (root) {
     };
 
     const bootstrap = async () => {
-        await ensureChartReady();
-        seedCharts();
+        const chartReadyPromise = ensureChartReady();
+
         initDesigner();
         applyStatusStyles();
         updateRuntimeDisplay();
@@ -3226,8 +3226,6 @@ if (root) {
         updateFluidCards();
         updateDeviceBadge(deviceInfo);
         startRuntimeTimer();
-        await refreshTelemetry();
-        startTelemetryStream();
 
         if (selectors.toggleButton) {
             selectors.toggleButton.addEventListener('click', togglePump);
@@ -3327,6 +3325,11 @@ if (root) {
             }
             stopTelemetryTimer();
         });
+
+        await chartReadyPromise;
+        seedCharts();
+        await refreshTelemetry();
+        startTelemetryStream();
     };
 
     bootstrap();
