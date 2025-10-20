@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\SettingsRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class DemoLoginController extends Controller
@@ -29,8 +30,9 @@ class DemoLoginController extends Controller
         $validCredentials = $this->settings->getDemoCredentials();
 
         if (
-            $credentials['username'] === $validCredentials['username'] &&
-            $credentials['password'] === $validCredentials['password']
+            hash_equals($credentials['username'], $validCredentials['username']) &&
+            ($validCredentials['password_hash'] ?? false) &&
+            Hash::check($credentials['password'], $validCredentials['password_hash'])
         ) {
             $request->session()->put('demo_authenticated', true);
             $request->session()->flash('just_logged_in', true);

@@ -14,7 +14,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/login', [DemoLoginController::class, 'show'])->name('login');
-Route::post('/login', [DemoLoginController::class, 'login']);
+Route::post('/login', [DemoLoginController::class, 'login'])->middleware('throttle:demo-login');
 
 Route::middleware('demo.auth')->group(function (): void {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');

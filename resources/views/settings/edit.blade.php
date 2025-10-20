@@ -182,11 +182,13 @@
                         <input
                             id="demo-password"
                             name="password"
-                            type="text"
-                            value="{{ old('password', $demo['password'] ?? '') }}"
-                            required
+                            type="password"
+                            value="{{ old('password') }}"
+                            autocomplete="new-password"
+                            placeholder="••••••••"
                             class="mt-2 w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm text-white/90 focus:border-cyan-400/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/40"
                         >
+                        <p class="mt-2 text-xs text-white/50">Deja este campo vacío para conservar la contraseña actual.</p>
                     </div>
 
                     <button

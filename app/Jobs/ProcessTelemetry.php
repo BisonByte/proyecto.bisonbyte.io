@@ -57,28 +57,34 @@ class ProcessTelemetry implements ShouldQueue
             ? Carbon::parse($this->payload['received_at'])
             : Carbon::now();
 
-        $results = $calculator->compute($device, $telemetry, [
-            'flow_l_min' => $flow,
-            'temperature_c' => Arr::get($telemetry, 'temperature'),
-            'pressure_bar' => Arr::get($telemetry, 'pressure'),
-        ]);
+        try {
+            $results = $calculator->compute($device, $telemetry, [
+                'flow_l_min' => $flow,
+                'temperature_c' => Arr::get($telemetry, 'temperature'),
+                'pressure_bar' => Arr::get($telemetry, 'pressure'),
+            ]);
+        } catch (\Throwable $exception) {
+            report($exception);
+
+            return;
+        }
 
         $measurement = $device->measurements()->create([
             'recorded_at' => $recordedAt,
             'payload' => $this->payload['payload'] ?? $telemetry,
-            'flow_l_min' => $results['flow_l_min'],
-            'pressure_bar' => $results['pressure_bar'],
-            'temperature_c' => $results['temperature_c'],
-            'voltage_v' => $results['voltage_v'],
-            'current_a' => $results['current_a'],
-            'velocity_m_s' => $results['velocity_m_s'],
-            'density_kg_m3' => $results['density_kg_m3'],
-            'dynamic_viscosity_pa_s' => $results['dynamic_viscosity_pa_s'],
-            'reynolds_number' => $results['reynolds_number'],
-            'friction_factor' => $results['friction_factor'],
-            'pressure_drop_pa' => $results['pressure_drop_pa'],
-            'head_loss_m' => $results['head_loss_m'],
-            'hydraulic_power_w' => $results['hydraulic_power_w'],
+            'flow_l_min' => $results['flow_l_min'] ?? null,
+            'pressure_bar' => $results['pressure_bar'] ?? null,
+            'temperature_c' => $results['temperature_c'] ?? null,
+            'voltage_v' => $results['voltage_v'] ?? null,
+            'current_a' => $results['current_a'] ?? null,
+            'velocity_m_s' => $results['velocity_m_s'] ?? null,
+            'density_kg_m3' => $results['density_kg_m3'] ?? null,
+            'dynamic_viscosity_pa_s' => $results['dynamic_viscosity_pa_s'] ?? null,
+            'reynolds_number' => $results['reynolds_number'] ?? null,
+            'friction_factor' => $results['friction_factor'] ?? null,
+            'pressure_drop_pa' => $results['pressure_drop_pa'] ?? null,
+            'head_loss_m' => $results['head_loss_m'] ?? null,
+            'hydraulic_power_w' => $results['hydraulic_power_w'] ?? null,
             'calculation_details' => $results['details'] ?? null,
         ]);
 

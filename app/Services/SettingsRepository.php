@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class SettingsRepository
@@ -21,7 +22,12 @@ class SettingsRepository
 
     public function getDemoCredentials(): array
     {
-        return $this->all()['demo'];
+        $demo = $this->all()['demo'];
+
+        return [
+            'username' => $demo['username'] ?? 'demo',
+            'password_hash' => $demo['password_hash'] ?? config('demo.credentials.password_hash'),
+        ];
     }
 
     public function updateEsp32(array $data): void
@@ -49,10 +55,11 @@ class SettingsRepository
     {
         $settings = $this->all();
 
-        $settings['demo'] = array_merge($settings['demo'], [
-            'username' => Arr::get($data, 'username'),
-            'password' => Arr::get($data, 'password'),
-        ]);
+        $settings['demo']['username'] = Arr::get($data, 'username', $settings['demo']['username'] ?? 'demo');
+
+        if ($password = Arr::get($data, 'password')) {
+            $settings['demo']['password_hash'] = Hash::make($password);
+        }
 
         $this->write($settings);
     }
@@ -60,7 +67,10 @@ class SettingsRepository
     private function defaults(): array
     {
         return [
-            'demo' => config('demo.credentials'),
+            'demo' => [
+                'username' => config('demo.credentials.username'),
+                'password_hash' => config('demo.credentials.password_hash'),
+            ],
             'esp32' => config('device.esp32'),
             'fluid' => [
                 'selection' => config('fluid.default'),
