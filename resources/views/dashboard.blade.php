@@ -967,52 +967,82 @@
                         <div class="grid gap-7 lg:grid-cols-2">
                             <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
                                 <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Propiedades termodinámicas</p>
-                                <dl class="mt-6 grid gap-4 text-sm text-slate-200">
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Densidad</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="density">—</span> kg/m³</dd>
+                                <dl class="mt-6 space-y-3 text-sm text-slate-200">
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Densidad</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="density">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kg/m³</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Volumen específico</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="specific-volume">—</span> m³/kg</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Volumen específico</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="specific-volume">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">m³/kg</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Peso específico</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="specific-weight">—</span> kN/m³</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Peso específico</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="specific-weight">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kN/m³</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Viscosidad dinámica</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="dynamic-viscosity">—</span> Pa·s</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Viscosidad dinámica</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="dynamic-viscosity">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">Pa·s</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Viscosidad cinemática</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="kinematic-viscosity">—</span> m²/s</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Viscosidad cinemática</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="kinematic-viscosity">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">m²/s</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4 lg:col-span-2">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400" data-calculator-output="compressibility-label">Compresibilidad</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="compressibility">—</span></dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300" data-calculator-output="compressibility-label">Compresibilidad</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="compressibility">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500" data-calculator-output="compressibility-unit">—</span>
+                                        </dd>
                                     </div>
                                 </dl>
                             </div>
 
                             <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
                                 <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Presiones derivadas</p>
-                                <dl class="mt-6 grid gap-4 text-sm text-slate-200">
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Ecuación de estado</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="pressure-eos">—</span> kPa</dd>
+                                <dl class="mt-6 space-y-3 text-sm text-slate-200">
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Ecuación de estado</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="pressure-eos">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión parcial</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="partial-pressure">—</span> kPa</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Presión parcial</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="partial-pressure">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión de vapor</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="vapor-pressure">—</span> kPa</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Presión de vapor</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="vapor-pressure">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión de saturación</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="saturation-pressure">—</span> kPa</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Presión de saturación</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="saturation-pressure">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
                                 </dl>
                             </div>
