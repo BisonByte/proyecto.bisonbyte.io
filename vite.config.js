@@ -9,7 +9,12 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/ts/main.tsx'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/ts/main.tsx',
+                'resources/ts/dashboard-designer.tsx',
+            ],
             refresh: true,
         }),
         tailwindcss(),
