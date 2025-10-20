@@ -25,7 +25,7 @@ class DeviceFactory extends Factory
             'ip' => $this->faker->ipv4(),
             'topic' => 'iot/bisonbyte/' . $this->faker->uuid(),
             'connection_type' => $this->faker->randomElement(['http', 'mqtt']),
-            'token' => Str::random(60),
+            'token' => hash('sha256', Str::random(60)),
             'token_expires_at' => Carbon::now()->addDays(30),
             'should_run' => $this->faker->boolean(),
             'reported_is_on' => $this->faker->boolean(),

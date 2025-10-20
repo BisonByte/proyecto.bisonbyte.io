@@ -14,7 +14,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/login', [DemoLoginController::class, 'show'])->name('login');
-Route::post('/login', [DemoLoginController::class, 'login']);
+Route::post('/login', [DemoLoginController::class, 'login'])->middleware('throttle:demo-login');
 
 Route::middleware('demo.auth')->group(function (): void {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -22,6 +22,8 @@ Route::middleware('demo.auth')->group(function (): void {
     Route::get('/pump/state', [PumpSimulationController::class, 'state'])->name('pump.state');
     Route::post('/pump/toggle', [PumpSimulationController::class, 'toggle'])->name('pump.toggle');
     Route::get('/telemetry/stream', TelemetryStreamController::class)->name('telemetry.stream');
+
+    Route::view('/system-editor', 'system-editor')->name('system.editor');
 
     Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::put('/settings/esp32', [SettingsController::class, 'updateEsp32'])->name('settings.esp32.update');

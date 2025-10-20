@@ -165,50 +165,49 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3 self-start lg:self-auto">
-                <button
-                    type="button"
-                    data-designer-open
-                    class="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-sky-100 transition hover:border-sky-400/60 hover:bg-sky-500/20"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M4 2a1 1 0 00-1 1v6a1 1 0 001 1h1.382l1.447 3.894A1 1 0 007.764 14h4.472a1 1 0 00.935-.605L15.166 10H16a1 1 0 001-1V3a1 1 0 00-1-1H4zm5 2h2a1 1 0 010 2H9a1 1 0 010-2z" /></svg>
-                    Diseñador hidráulico
-                </button>
-                <button
-                    type="button"
-                    data-calculator-open
-                    class="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-500/20"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h8v2H6V4zm0 4h2v2H6V8zm0 4h2v2H6v-2zm4-4h4v2h-4V8zm0 4h4v2h-4v-2z"/></svg>
-                    Calculadora de fluidos
-                </button>
-                <a
-                    href="{{ route('settings.edit') }}"
-                    class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.272a1 1 0 00-1.966 0l-.208 1.248a7.032 7.032 0 00-1.538.889l-1.15-.459a1 1 0 00-1.115.324L4.12 5.16a1 1 0 00.004 1.23l.796.98a6.99 6.99 0 000 1.26l-.796.98a1 1 0 00-.003 1.23l1.89 2.036a1 1 0 001.114.324l1.15-.459c.482.36 1 .662 1.538.889l.208 1.248a1 1 0 001.966 0l.208-1.248a7.046 7.046 0 001.538-.889l1.15.459a1 1 0 001.114-.324l1.89-2.036a1 1 0 00-.003-1.23l-.796-.98a6.99 6.99 0 000-1.26l.796-.98a1 1 0 00.004-1.23l-1.89-2.036a1 1 0 00-1.115-.324l-1.15.459a7.046 7.046 0 00-1.538-.889l-.208-1.248zM10 12a2 2 0 110-4 2 2 0 010 4z" /></svg>
-                    Configuración
-                </a>
-                <span
-                    data-device-badge
-                    class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/70"
-                >
-                    @if ($deviceMeta)
-                        ESP32 #{{ $deviceMeta['id'] }} • {{ $deviceMeta['lastSeenAt'] ? \Illuminate\Support\Carbon::parse($deviceMeta['lastSeenAt'])->diffForHumans() : 'registrado' }}
-                    @else
-                        Esperando registro del ESP32
-                    @endif
-                </span>
-                <form action="{{ route('logout') }}" method="POST" class="ml-auto">
-                    @csrf
+            <div class="flex w-full flex-col gap-4 self-stretch lg:w-auto lg:max-w-md">
+                <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
                     <button
-                        type="submit"
-                        class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/80 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-200"
+                        type="button"
+                        data-calculator-open
+                        aria-controls="calculator-panel"
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-500/20 sm:w-auto sm:justify-start"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h5A1.5 1.5 0 0111 4.5v1a.5.5 0 01-1 0v-1a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h5a.5.5 0 00.5-.5v-1a.5.5 0 011 0v1A1.5 1.5 0 019.5 17h-5A1.5 1.5 0 013 15.5v-11zM13.854 6.146a.5.5 0 10-.708.708L14.293 8H8.5a.5.5 0 000 1h5.793l-1.147 1.146a.5.5 0 10.708.708l2-2a.5.5 0 000-.708l-2-2z" clip-rule="evenodd" /></svg>
-                        Salir
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h8v2H6V4zm0 4h2v2H6V8zm0 4h2v2H6v-2zm4-4h4v2h-4V8zm0 4h4v2h-4v-2z"/></svg>
+                        Calculadora de fluidos
                     </button>
-                </form>
+                    <a
+                        href="{{ route('settings.edit') }}"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20 sm:w-auto sm:justify-start"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.272a1 1 0 00-1.966 0l-.208 1.248a7.032 7.032 0 00-1.538.889l-1.15-.459a1 1 0 00-1.115.324L4.12 5.16a1 1 0 00.004 1.23l.796.98a6.99 6.99 0 000 1.26l-.796.98a1 1 0 00-.003 1.23l1.89 2.036a1 1 0 001.114.324l1.15-.459c.482.36 1 .662 1.538.889l.208 1.248a1 1 0 001.966 0l.208-1.248a7.046 7.046 0 001.538-.889l1.15.459a1 1 0 001.114-.324l1.89-2.036a1 1 0 00-.003-1.23l-.796-.98a6.99 6.99 0 000-1.26l.796-.98a1 1 0 00.004-1.23l-1.89-2.036a1 1 0 00-1.115-.324l-1.15.459a7.046 7.046 0 00-1.538-.889l-.208-1.248zM10 12a2 2 0 110-4 2 2 0 010 4z" /></svg>
+                        Configuración
+                    </a>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                    <span
+                        data-device-badge
+                        class="w-full rounded-full border border-white/10 bg-white/5 px-4 py-2 text-center text-xs font-medium text-white/70 sm:w-auto sm:text-right"
+                    >
+                        @if ($deviceMeta)
+                            ESP32 #{{ $deviceMeta['id'] }} • {{ $deviceMeta['lastSeenAt'] ? \Illuminate\Support\Carbon::parse($deviceMeta['lastSeenAt'])->diffForHumans() : 'registrado' }}
+                        @else
+                            Esperando registro del ESP32
+                        @endif
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="w-full sm:ml-4 sm:w-auto">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/80 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-200 sm:w-auto"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h5A1.5 1.5 0 0111 4.5v1a.5.5 0 01-1 0v-1a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h5a.5.5 0 00.5-.5v-1a.5.5 0 011 0v1A1.5 1.5 0 019.5 17h-5A1.5 1.5 0 013 15.5v-11zM13.854 6.146a.5.5 0 10-.708.708L14.293 8H8.5a.5.5 0 000 1h5.793l-1.147 1.146a.5.5 0 10.708.708l2-2a.5.5 0 000-.708l-2-2z" clip-rule="evenodd" /></svg>
+                            Salir
+                        </button>
+                    </form>
+                </div>
             </div>
         </header>
 
@@ -399,6 +398,9 @@
                             <button
                                 type="button"
                                 data-fluid-open
+                                aria-controls="fluid-panel"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
                                 class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20"
                             >
                                 Configurar fluido
@@ -616,15 +618,20 @@
 
     <div
         data-fluid-panel
+        id="fluid-panel"
         class="fixed inset-0 z-50 hidden items-center justify-center px-4 py-6"
+        role="dialog"
+        aria-modal="true"
         aria-hidden="true"
+        aria-labelledby="fluid-panel-title"
+        tabindex="-1"
     >
         <div data-fluid-close class="absolute inset-0 bg-slate-950/80"></div>
         <div class="relative z-10 w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-950/95 shadow-xl shadow-slate-900/40">
             <header class="flex items-start justify-between gap-4 border-b border-slate-800 bg-slate-900/90 px-5 py-4">
                 <div class="space-y-1">
                     <p class="text-[10px] uppercase tracking-[0.3em] text-cyan-300">Selector de fluidos</p>
-                    <h2 class="text-lg font-semibold text-white">{{ $fluidSelection['name'] ?? 'Selecciona un fluido' }}</h2>
+                    <h2 id="fluid-panel-title" class="text-lg font-semibold text-white">{{ $fluidSelection['name'] ?? 'Selecciona un fluido' }}</h2>
                     <p class="text-xs text-slate-300">Puedes cambiar el fluido activo en cualquier momento, los cálculos del panel se actualizan al instante.</p>
                 </div>
                 <button
@@ -747,291 +754,14 @@
     </div>
 
     <div
-        data-designer-panel
-        class="fixed inset-0 z-50 hidden px-4 py-8 sm:px-8 sm:py-10"
-        aria-hidden="true"
-    >
-        <div data-designer-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
-        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col overflow-hidden rounded-3xl border border-sky-500/30 bg-slate-950/95 shadow-[0_40px_120px_-40px_rgba(56,189,248,0.65)] ring-1 ring-white/5">
-            <header class="border-b border-white/10 bg-gradient-to-br from-sky-500/15 via-slate-900/90 to-cyan-900/60 px-8 py-8 text-white shadow-[inset_0_-1px_0_0_rgba(148,163,184,0.25)] sm:px-10 sm:py-9">
-                <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start lg:gap-14">
-                    <div class="space-y-5">
-                        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-sky-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4 2a1 1 0 00-1 1v6a1 1 0 001 1h1.382l1.447 3.894A1 1 0 007.764 14h4.472a1 1 0 00.935-.605L15.166 10H16a1 1 0 001-1V3a1 1 0 00-1-1H4zm5 2h2a1 1 0 010 2H9a1 1 0 010-2z" /></svg>
-                            Diseñador hidráulico
-                        </span>
-                        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Diseña y verifica tu sistema de tuberías</h2>
-                        <p class="text-sm leading-relaxed text-slate-100/80">
-                            Construye el diagrama de tu tanque, bomba y tubería para estimar presiones usando los principios de Pascal
-                            y las ecuaciones hidrostáticas. Captura los parámetros geométricos y valida los resultados antes de ejecutar la instalación.
-                        </p>
-                        <div class="flex flex-wrap items-center gap-2 text-[11px] text-slate-100">
-                            <button type="button" data-designer-action="reset" class="inline-flex items-center gap-2 rounded-full border border-slate-500/40 bg-slate-800/60 px-3 py-1.5 font-semibold uppercase tracking-[0.3em] text-white transition hover:border-slate-400/60 hover:bg-slate-700/70">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v11A2.5 2.5 0 004.5 18h11a2.5 2.5 0 002.5-2.5V11a1 1 0 10-2 0v4.5a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H11a1 1 0 000-2H4.5z" /><path d="M7.707 12.707a1 1 0 010-1.414l7-7a1 1 0 011.414 1.414l-7 7a1 1 0 01-1.414 0z" /><path d="M6 7a1 1 0 111-1h2a1 1 0 110 2H7a1 1 0 01-1-1z" /></svg>
-                                Reiniciar esquema
-                            </button>
-                            <button type="button" data-designer-action="add-node" class="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1.5 font-semibold uppercase tracking-[0.3em] text-sky-100 transition hover:border-sky-400/60 hover:bg-sky-500/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" /></svg>
-                                Nuevo nodo
-                            </button>
-                            <button type="button" data-designer-action="add-pipe" class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-3 py-1.5 font-semibold uppercase tracking-[0.3em] text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4 5a2 2 0 012-2h8a2 2 0 012 2v3h1.5a.5.5 0 01.354.854l-3.5 3.5a.5.5 0 01-.708 0l-3.5-3.5A.5.5 0 0111.5 8H13V5H7v10h3.5a.5.5 0 110 1H6a2 2 0 01-2-2V5z" /></svg>
-                                Nuevo tramo
-                            </button>
-                            <button type="button" data-designer-action="save" class="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 font-semibold uppercase tracking-[0.3em] text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-500/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6.414A2 2 0 0017.414 5L15 2.586A2 2 0 0013.586 2H4zm10 0v4H6V3h8z" /></svg>
-                                Guardar diseño
-                            </button>
-                            <button type="button" data-designer-action="load" class="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 font-semibold uppercase tracking-[0.3em] text-amber-100 transition hover:border-amber-400/60 hover:bg-amber-500/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a2 2 0 012-2h5a2 2 0 011.414.586l5 5A2 2 0 0117 8.414V16a2 2 0 01-2 2H5a2 2 0 01-2-2V4zm7 0v4h4L10 4z" /></svg>
-                                Recuperar
-                            </button>
-                            <button type="button" data-designer-action="load-preset" data-designer-preset="example-x" class="inline-flex items-center gap-2 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-3 py-1.5 font-semibold uppercase tracking-[0.3em] text-indigo-100 transition hover:border-indigo-400/60 hover:bg-indigo-500/20">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4.25 2A2.25 2.25 0 002 4.25v11.5A2.25 2.25 0 004.25 18h11.5A2.25 2.25 0 0018 15.75V7.5a.75.75 0 00-1.5 0v8.25a.75.75 0 01-.75.75H4.25a.75.75 0 01-.75-.75V4.25a.75.75 0 01.75-.75h6.25a.75.75 0 000-1.5H4.25z" /><path d="M6.5 11.25A.75.75 0 017.25 10.5h1.69l4.03-4.03a.75.75 0 111.06 1.06L10.06 11.5v1.69a.75.75 0 01-1.5 0v-1.69l-1.31 1.31a.75.75 0 11-1.06-1.06l1.31-1.31H7.25a.75.75 0 01-.75-.75z" /></svg>
-                                Cargar ejemplo X
-                            </button>
-                        </div>
-                        <p class="text-[11px] leading-relaxed text-white/70" data-designer-hint>Haz clic en “Nuevo tramo” y selecciona dos nodos para conectar el circuito.</p>
-                    </div>
-                    <div class="grid gap-4 text-xs text-slate-100/90">
-                        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
-                            <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-sky-200">Propiedades del fluido</p>
-                            <dl class="mt-4 grid gap-4 sm:grid-cols-3">
-                                <div>
-                                    <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Densidad</dt>
-                                    <dd class="mt-1 text-lg font-semibold text-white" data-designer-summary="density">— kg/m³</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Peso específico</dt>
-                                    <dd class="mt-1 text-lg font-semibold text-white" data-designer-summary="gamma">— kN/m³</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Viscosidad</dt>
-                                    <dd class="mt-1 text-lg font-semibold text-white" data-designer-summary="viscosity">— Pa·s</dd>
-                                </div>
-                            </dl>
-                        </div>
-                        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
-                            <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-sky-200">Estado hidrostático</p>
-                            <dl class="mt-4 grid gap-4 sm:grid-cols-3">
-                                <div>
-                                    <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Altura de referencia</dt>
-                                    <dd class="mt-1 text-lg font-semibold text-white" data-designer-summary="surface-height">— m</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Presión en superficie</dt>
-                                    <dd class="mt-1 text-lg font-semibold text-white" data-designer-summary="surface-pressure">— kPa</dd>
-                                </div>
-                                <div>
-                                    <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Presión objetivo</dt>
-                                    <dd class="mt-1 text-lg font-semibold text-white" data-designer-summary="target-pressure">— kPa</dd>
-                                </div>
-                            </dl>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <div class="grid flex-1 gap-6 overflow-hidden px-6 py-6 sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
-                <section class="flex flex-col">
-                    <div class="relative flex-1 overflow-hidden rounded-3xl border border-white/10 bg-slate-900/60 shadow-inner">
-                        <svg data-designer-svg viewBox="0 0 960 540" class="h-full w-full" preserveAspectRatio="xMidYMid meet"></svg>
-                        <div class="pointer-events-none absolute left-6 top-6 max-w-sm text-[11px] leading-relaxed text-white/80" data-designer-hint-overlay></div>
-                        <div class="pointer-events-none absolute bottom-6 right-6 rounded-full border border-white/10 bg-slate-900/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-white/60">
-                            1 m = 50 px
-                        </div>
-                    </div>
-                </section>
-
-                <aside class="flex flex-col gap-6 overflow-y-auto pb-4">
-                    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-semibold text-white">Condiciones del sistema</h3>
-                            <span class="text-[10px] font-semibold uppercase tracking-[0.35em] text-sky-200">Entrada</span>
-                        </div>
-                        <form data-designer-system-form class="mt-4 space-y-5 text-xs text-slate-100">
-                            <div class="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label for="designer-fluid" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Fluido</label>
-                                    <select id="designer-fluid" data-designer-bind="fluidKey" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40">
-                                        @foreach ($calculatorFluids as $key => $label)
-                                            <option value="{{ $key }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="designer-temperature" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Temperatura (°C)</label>
-                                    <input id="designer-temperature" type="number" step="0.1" data-designer-bind="temperature" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                            </div>
-
-                            <div class="grid gap-4 sm:grid-cols-2">
-                                <div>
-                                    <label for="designer-tank-type" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Tipo de tanque</label>
-                                    <select id="designer-tank-type" data-designer-bind="tank.type" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40">
-                                        <option value="rectangular">Rectangular</option>
-                                        <option value="cylindrical">Cilíndrico</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="designer-tank-height" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Altura del tanque (m)</label>
-                                    <input id="designer-tank-height" type="number" min="0" step="0.01" data-designer-bind="tank.height" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                            </div>
-
-                            <div class="grid gap-4 sm:grid-cols-3" data-designer-visibility="rectangular">
-                                <div>
-                                    <label for="designer-tank-base" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Base x (m)</label>
-                                    <input id="designer-tank-base" type="number" min="0" step="0.01" data-designer-bind="tank.base" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                                <div>
-                                    <label for="designer-tank-depth" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Profundidad z (m)</label>
-                                    <input id="designer-tank-depth" type="number" min="0" step="0.01" data-designer-bind="tank.depth" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                                <div>
-                                    <label for="designer-tank-volume-rect" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Volumen (m³)</label>
-                                    <input id="designer-tank-volume-rect" type="number" min="0" step="0.01" data-designer-bind="tank.volume" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                            </div>
-
-                            <div class="grid gap-4 sm:grid-cols-2" data-designer-visibility="cylindrical">
-                                <div>
-                                    <label for="designer-tank-radius" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Radio (m)</label>
-                                    <input id="designer-tank-radius" type="number" min="0" step="0.01" data-designer-bind="tank.radius" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                                <div>
-                                    <label for="designer-tank-volume-cyl" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Volumen (m³)</label>
-                                    <input id="designer-tank-volume-cyl" type="number" min="0" step="0.01" data-designer-bind="tank.volume" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-3">
-                                <input id="designer-tank-open" type="checkbox" data-designer-bind="tank.openToAtmosphere" class="h-4 w-4 rounded border border-white/20 bg-slate-900 text-sky-400 focus:ring-sky-400/50" />
-                                <label for="designer-tank-open" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Tanque abierto a la atmósfera</label>
-                            </div>
-
-                            <div data-designer-visibility="closed">
-                                <label for="designer-tank-gas" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Presión del gas (kPa)</label>
-                                <input id="designer-tank-gas" type="number" min="0" step="0.1" data-designer-bind="tank.gasPressure" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                            </div>
-
-                            <div class="rounded-xl border border-sky-500/30 bg-sky-500/10 px-4 py-4 text-white">
-                                <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-sky-100">Nivel del fluido</p>
-                                <p class="mt-1 text-lg font-semibold" data-designer-output="fluid-height">— m</p>
-                                <p class="text-[11px] leading-relaxed text-white/70" data-designer-output="fluid-note">Captura las dimensiones y volumen para estimar la altura ocupada.</p>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-semibold text-white">Bomba y succión</h3>
-                            <span class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Referencia</span>
-                        </div>
-                        <dl class="mt-4 grid gap-4 text-xs text-slate-100/90 sm:grid-cols-2">
-                            <div>
-                                <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Altura del centro de la bomba</dt>
-                                <dd class="mt-1 text-lg font-semibold text-white" data-designer-output="pump-height">— m</dd>
-                            </div>
-                            <div>
-                                <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Presión hidrostática</dt>
-                                <dd class="mt-1 text-lg font-semibold text-white" data-designer-output="hydro-pressure">— kPa</dd>
-                            </div>
-                            <div>
-                                <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Condición superior</dt>
-                                <dd class="mt-1 text-lg font-semibold text-white" data-designer-output="tank-condition">—</dd>
-                            </div>
-                            <div>
-                                <dt class="text-[10px] uppercase tracking-[0.3em] text-white/60">Presión de succión</dt>
-                                <dd class="mt-1 text-lg font-semibold text-white" data-designer-output="suction-pressure">— kPa</dd>
-                            </div>
-                        </dl>
-                        <p class="mt-4 text-[11px] leading-relaxed text-white/70" data-designer-output="pump-note">
-                            Ajusta la altura del nodo de succión para evaluar si la bomba trabaja sumergida o por encima del nivel del fluido.
-                        </p>
-                    </div>
-
-                    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5" data-designer-element-panel>
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-semibold text-white">Elemento seleccionado</h3>
-                            <button type="button" data-designer-action="delete-element" class="inline-flex items-center gap-1 rounded-full border border-red-500/40 bg-red-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-red-200 transition hover:border-red-400/60 hover:bg-red-500/20">Eliminar</button>
-                        </div>
-                        <p class="mt-3 text-[11px] leading-relaxed text-white/60" data-designer-selection-empty>Selecciona un nodo o tramo en el diagrama para editar sus propiedades geométricas.</p>
-                        <form data-designer-element-form class="mt-4 hidden space-y-4 text-xs text-slate-100">
-                            <div>
-                                <label for="designer-element-label" class="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-300">Nombre</label>
-                                <input id="designer-element-label" type="text" data-designer-element-bind="label" class="mt-1 w-full rounded-xl border border-white/10 bg-slate-900/80 px-3 py-2 text-sm text-white shadow-inner focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40" />
-                            </div>
-                            <div data-designer-element-fields class="space-y-4"></div>
-                        </form>
-                    </div>
-
-                    <div class="rounded-2xl border border-white/10 bg-slate-900/70 p-5">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-semibold text-white">Resultados hidrostáticos</h3>
-                            <span class="text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-200">Salida</span>
-                        </div>
-                        <div class="mt-4 overflow-hidden rounded-xl border border-white/5">
-                            <table class="min-w-full divide-y divide-white/10 text-xs text-white/90">
-                                <thead class="bg-slate-900/80 text-sky-100">
-                                    <tr>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Punto</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Altura (m)</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Pabs (kPa)</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Pg (kPa)</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-white/5" data-designer-results="nodes"></tbody>
-                            </table>
-                        </div>
-
-                        <div class="mt-5 overflow-hidden rounded-xl border border-white/5">
-                            <table class="min-w-full divide-y divide-white/10 text-xs text-white/90">
-                                <thead class="bg-slate-900/80 text-cyan-100">
-                                    <tr>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Tramo</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Δh (m)</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Signo</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">γΔh (kPa)</th>
-                                        <th class="px-3 py-2 text-left font-semibold uppercase tracking-[0.25em]">Resultado</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-white/5" data-designer-results="segments"></tbody>
-                            </table>
-                        </div>
-
-                        <div class="mt-5 space-y-3 rounded-2xl border border-indigo-500/30 bg-indigo-500/10 p-5 text-[11px] leading-relaxed text-slate-100/90 hidden" data-designer-validation>
-                            <div>
-                                <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-indigo-200">Validación del ejemplo</p>
-                                <p class="mt-2" data-designer-validation-message>Activa el “Ejemplo X” para comparar con los resultados calculados.</p>
-                            </div>
-                            <ul class="space-y-2" data-designer-validation-list></ul>
-                        </div>
-
-                        <div class="mt-5 space-y-4 text-[11px] leading-relaxed text-slate-100/90">
-                            <div class="rounded-xl border border-white/10 bg-slate-900/70 p-4">
-                                <p class="font-semibold uppercase tracking-[0.35em] text-sky-100">Fórmula hidrostática</p>
-                                <p class="mt-2" data-designer-formula="hydro">—</p>
-                            </div>
-                            <div class="rounded-xl border border-white/10 bg-slate-900/70 p-4">
-                                <p class="font-semibold uppercase tracking-[0.35em] text-emerald-100">Suma de presiones (Pascal)</p>
-                                <p class="mt-2" data-designer-formula="pascal">—</p>
-                            </div>
-                            <div class="rounded-xl border border-white/10 bg-slate-900/70 p-4">
-                                <p class="font-semibold uppercase tracking-[0.35em] text-cyan-100">Presión de succión</p>
-                                <p class="mt-2" data-designer-formula="suction">—</p>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-            </div>
-        </div>
-    </div>
-
-    <div
         data-calculator-panel
+        id="calculator-panel"
         class="fixed inset-0 z-50 hidden px-4 py-8 sm:px-8 sm:py-10"
+        role="dialog"
+        aria-modal="true"
         aria-hidden="true"
+        aria-labelledby="calculator-panel-title"
+        tabindex="-1"
     >
         <div data-calculator-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
         <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-cyan-500/20 bg-slate-950/95 shadow-[0_40px_120px_-50px_rgba(8,145,178,0.75)] ring-1 ring-white/5">
@@ -1042,7 +772,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zm0 3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 5zm0 8a1 1 0 100 2 1 1 0 000-2z" /></svg>
                             Calculadora de fluidos
                         </span>
-                        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
+                        <h2 id="calculator-panel-title" class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
                         <p class="text-sm leading-relaxed text-slate-100/80">
                             Ingresa las condiciones de operación y obtén un resumen profesional de propiedades críticas,
                             tendencias y clasificaciones del fluido seleccionado.
@@ -1237,52 +967,82 @@
                         <div class="grid gap-7 lg:grid-cols-2">
                             <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
                                 <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Propiedades termodinámicas</p>
-                                <dl class="mt-6 grid gap-4 text-sm text-slate-200">
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Densidad</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="density">—</span> kg/m³</dd>
+                                <dl class="mt-6 space-y-3 text-sm text-slate-200">
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Densidad</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="density">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kg/m³</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Volumen específico</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="specific-volume">—</span> m³/kg</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Volumen específico</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="specific-volume">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">m³/kg</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Peso específico</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="specific-weight">—</span> kN/m³</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Peso específico</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="specific-weight">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kN/m³</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Viscosidad dinámica</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="dynamic-viscosity">—</span> Pa·s</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Viscosidad dinámica</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="dynamic-viscosity">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">Pa·s</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Viscosidad cinemática</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="kinematic-viscosity">—</span> m²/s</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Viscosidad cinemática</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="kinematic-viscosity">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">m²/s</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4 lg:col-span-2">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400" data-calculator-output="compressibility-label">Compresibilidad</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="compressibility">—</span></dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300" data-calculator-output="compressibility-label">Compresibilidad</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="compressibility">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500" data-calculator-output="compressibility-unit">—</span>
+                                        </dd>
                                     </div>
                                 </dl>
                             </div>
 
                             <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-6">
                                 <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-cyan-200">Presiones derivadas</p>
-                                <dl class="mt-6 grid gap-4 text-sm text-slate-200">
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Ecuación de estado</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="pressure-eos">—</span> kPa</dd>
+                                <dl class="mt-6 space-y-3 text-sm text-slate-200">
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Ecuación de estado</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="pressure-eos">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión parcial</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="partial-pressure">—</span> kPa</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Presión parcial</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="partial-pressure">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión de vapor</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="vapor-pressure">—</span> kPa</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Presión de vapor</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="vapor-pressure">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
-                                    <div class="flex items-center justify-between gap-4">
-                                        <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Presión de saturación</dt>
-                                        <dd class="font-semibold text-white"><span data-calculator-output="saturation-pressure">—</span> kPa</dd>
+                                    <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border border-white/5 bg-slate-950/50 px-4 py-3 shadow-inner shadow-slate-950/30">
+                                        <dt class="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-300">Presión de saturación</dt>
+                                        <dd class="flex flex-col items-end text-right">
+                                            <span class="text-base font-semibold leading-tight text-white tabular-nums" data-calculator-output="saturation-pressure">—</span>
+                                            <span class="text-[10px] font-medium uppercase tracking-[0.35em] text-slate-500">kPa</span>
+                                        </dd>
                                     </div>
                                 </dl>
                             </div>
@@ -1478,38 +1238,3 @@
 
 </div>
 @endsection
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const panel = document.querySelector('[data-fluid-panel]');
-            const openers = document.querySelectorAll('[data-fluid-open]');
-            const closers = document.querySelectorAll('[data-fluid-close]');
-
-            if (!panel || openers.length === 0) {
-                return;
-            }
-
-            const togglePanel = (open) => {
-                panel.classList.toggle('hidden', !open);
-                panel.classList.toggle('flex', open);
-                panel.setAttribute('aria-hidden', open ? 'false' : 'true');
-                document.body.classList.toggle('overflow-hidden', open);
-            };
-
-            openers.forEach((button) => {
-                button.addEventListener('click', () => togglePanel(true));
-            });
-
-            closers.forEach((button) => {
-                button.addEventListener('click', () => togglePanel(false));
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && !panel.classList.contains('hidden')) {
-                    togglePanel(false);
-                }
-            });
-        });
-    </script>
-@endpush

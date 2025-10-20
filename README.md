@@ -43,6 +43,10 @@ php artisan serve
 
 Accede a `http://localhost:8000` y usa las credenciales `demo / demo`.
 
+### Procedimiento de recuperación de dependencias PHP
+
+Si el entorno pierde la carpeta `vendor/` (por ejemplo, tras limpiar el directorio o restaurar un backup incompleto), ejecuta `composer install` desde la raíz del proyecto antes de lanzar cualquier comando de Artisan. Esto recrea `vendor/autoload.php` y descarga todas las dependencias declaradas en `composer.json`. Si el comando falla por conectividad, vuelve a ejecutarlo una vez restablecido el acceso a Packagist.
+
 ## Variables de entorno relevantes
 
 ```env

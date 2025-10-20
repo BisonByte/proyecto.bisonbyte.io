@@ -18,10 +18,13 @@ class SettingsController extends Controller
     public function edit(Request $request): View
     {
         $settings = $this->settings->all();
+        $demoSettings = $settings['demo'] ?? [];
 
         return view('settings.edit', [
             'esp32' => $settings['esp32'],
-            'demo' => $settings['demo'],
+            'demo' => [
+                'username' => $demoSettings['username'] ?? 'demo',
+            ],
             'status' => $request->session()->get('status'),
             'devices' => Device::query()->orderByDesc('created_at')->get(),
         ]);
@@ -55,7 +58,7 @@ class SettingsController extends Controller
     {
         $data = $request->validate([
             'username' => ['required', 'string', 'max:60'],
-            'password' => ['required', 'string', 'max:60'],
+            'password' => ['nullable', 'string', 'min:8', 'max:60'],
         ]);
 
         $this->settings->updateDemo($data);

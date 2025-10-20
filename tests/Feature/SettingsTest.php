@@ -18,7 +18,7 @@ class SettingsTest extends TestCase
     {
         $response = $this->post('/login', [
             'username' => config('demo.credentials.username'),
-            'password' => config('demo.credentials.password'),
+            'password' => 'demo',
         ]);
 
         $response->assertRedirect(route('dashboard'));
@@ -54,7 +54,8 @@ class SettingsTest extends TestCase
         $saved = json_decode(Storage::disk('local')->get('settings.json'), true);
 
         $this->assertSame('tester', $saved['demo']['username']);
-        $this->assertSame('secret123', $saved['demo']['password']);
+        $this->assertArrayHasKey('password_hash', $saved['demo']);
+        $this->assertTrue(password_verify('secret123', $saved['demo']['password_hash']));
     }
 
     public function test_can_update_esp32_configuration(): void

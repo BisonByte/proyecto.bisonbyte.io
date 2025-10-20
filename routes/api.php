@@ -7,7 +7,9 @@ use App\Http\Controllers\Api\TelemetryController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function (): void {
-    Route::post('/devices/register', DeviceRegistrationController::class)->name('api.devices.register');
+    Route::post('/devices/register', DeviceRegistrationController::class)
+        ->middleware('throttle:device-registration')
+        ->name('api.devices.register');
     Route::get('/pump/state', PumpStateController::class)
         ->middleware('device.auth')
         ->name('api.pump.state');

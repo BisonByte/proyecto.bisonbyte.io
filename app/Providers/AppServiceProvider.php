@@ -31,5 +31,21 @@ class AppServiceProvider extends ServiceProvider
 
             return Limit::perMinute(30)->by($request->ip());
         });
+
+        RateLimiter::for('device-registration', function (Request $request) {
+            $mac = strtolower((string) $request->input('mac'));
+
+            if ($mac !== '') {
+                return Limit::perMinute(6)->by('registration-mac:' . $mac);
+            }
+
+            return Limit::perMinute(3)->by($request->ip());
+        });
+
+        RateLimiter::for('demo-login', function (Request $request) {
+            $username = strtolower((string) $request->input('username'));
+
+            return Limit::perMinute(5)->by($request->ip() . '|' . $username);
+        });
     }
 }
