@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import EditorCanvas from './components/EditorCanvas';
 import ExportPanel from './components/ExportPanel';
 import FormulaPanel from './components/FormulaPanel';
+import ManometerPanel from './components/ManometerPanel';
 import ModelIOPanel from './components/ModelIOPanel';
 import PropertiesPanel from './components/PropertiesPanel';
 import Toolbar from './components/Toolbar';
@@ -43,6 +44,7 @@ const App = (): JSX.Element => {
             <div className="flex h-full flex-col overflow-y-auto">
               <PropertiesPanel />
               <FormulaPanel />
+              <ManometerPanel />
               <ValidationPanel />
               <ExportPanel />
               <ModelIOPanel />

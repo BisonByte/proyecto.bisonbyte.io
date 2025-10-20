@@ -86,6 +86,7 @@ export const useModelStore = create<ModelStoreState>((set, get) => {
           properties: {
             elevation: 5,
             demand: 0.0,
+            referenceElevation: 5,
           },
         });
         return {

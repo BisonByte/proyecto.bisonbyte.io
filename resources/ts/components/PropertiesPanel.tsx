@@ -9,10 +9,12 @@ import {
   formatNumber,
   fromDisplayFlow,
   fromDisplayLength,
+  fromDisplayVolume,
   fromDisplayPressure,
   fromDisplayTemperature,
   toDisplayFlow,
   toDisplayLength,
+  toDisplayVolume,
   toDisplayPressure,
   toDisplayTemperature,
 } from '../utils/units';
@@ -53,8 +55,20 @@ const PropertiesPanel = (): JSX.Element => {
 
   const renderTankProperties = (node: TankNode) => {
     const elevation = toDisplayLength(node.properties.baseElevation, model.units);
+    const referenceElevation = toDisplayLength(
+      node.properties.referenceElevation ?? node.properties.baseElevation,
+      model.units,
+    );
     const fluidLevel = toDisplayLength(node.properties.fluidLevel, model.units);
     const temperature = node.properties.operatingTemperature ?? 20;
+    const volume = node.properties.volume ?? 0;
+    const volumeDisplay = toDisplayVolume(volume, model.units);
+    const isSealed = node.properties.isSealed ?? false;
+    const gasPressureDisplay = toDisplayPressure(
+      node.properties.gasPressure ?? model.ambientPressure,
+      model.units,
+    );
+    const rotation = node.dimensions.rotation ?? 0;
 
     return (
       <div className="space-y-3 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
@@ -102,6 +116,25 @@ const PropertiesPanel = (): JSX.Element => {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
+          <span className="text-xs uppercase text-slate-400">Referencia ({lengthUnit})</span>
+          <input
+            type="number"
+            value={referenceElevation}
+            onChange={(event) => {
+              const value = numberOrNull(event.target.value);
+              if (value === null) return;
+              updateNode(node.id, (current) => ({
+                ...current,
+                properties: {
+                  ...current.properties,
+                  referenceElevation: fromDisplayLength(value, model.units),
+                },
+              }));
+            }}
+            className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
           <span className="text-xs uppercase text-slate-400">Nivel de fluido ({lengthUnit})</span>
           <input
             type="number"
@@ -122,6 +155,73 @@ const PropertiesPanel = (): JSX.Element => {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
+          <span className="text-xs uppercase text-slate-400">Volumen ({model.units === 'US' ? 'ft³' : 'm³'})</span>
+          <input
+            type="number"
+            min={0}
+            value={volumeDisplay}
+            onChange={(event) => {
+              const value = numberOrNull(event.target.value);
+              if (value === null) return;
+              updateNode(node.id, (current) => ({
+                ...current,
+                properties: {
+                  ...current.properties,
+                  volume: fromDisplayVolume(value, model.units),
+                },
+              }));
+            }}
+            className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+          />
+        </label>
+        <div className="flex items-center justify-between rounded-md border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm">
+          <span className="text-xs uppercase text-slate-400">Tanque cerrado</span>
+          <button
+            type="button"
+            onClick={() =>
+              updateNode(node.id, (current) => ({
+                ...current,
+                properties: {
+                  ...current.properties,
+                  isSealed: !isSealed,
+                  gasPressure: !isSealed
+                    ? current.properties.gasPressure ?? model.ambientPressure
+                    : model.ambientPressure,
+                },
+              }))
+            }
+            className={`rounded-full px-3 py-1 text-xs font-medium transition ${
+              isSealed
+                ? 'border border-emerald-500/60 bg-emerald-500/10 text-emerald-200'
+                : 'border border-slate-700 bg-slate-900 text-slate-300'
+            }`}
+          >
+            {isSealed ? 'Sellado' : 'Abierto'}
+          </button>
+        </div>
+        {isSealed && (
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="text-xs uppercase text-slate-400">Presión de gas ({pressureUnit})</span>
+            <input
+              type="number"
+              min={0}
+              value={gasPressureDisplay}
+              onChange={(event) => {
+                const value = numberOrNull(event.target.value);
+                if (value === null) return;
+                updateNode(node.id, (current) => ({
+                  ...current,
+                  properties: {
+                    ...current.properties,
+                    gasPressure: fromDisplayPressure(value, model.units),
+                  },
+                }));
+              }}
+              className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+            />
+          </label>
+        )}
+        <label className="flex flex-col gap-1 text-sm">
           <span className="text-xs uppercase text-slate-400">Temperatura operativa ({temperatureUnit})</span>
           <input
             type="number"
@@ -140,6 +240,65 @@ const PropertiesPanel = (): JSX.Element => {
             className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
           />
         </label>
+        <div className="grid grid-cols-2 gap-3">
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="text-xs uppercase text-slate-400">Geometría</span>
+            <select
+              value={node.dimensions.shape}
+              onChange={(event) =>
+                updateNode(node.id, (current) => ({
+                  ...current,
+                  dimensions: {
+                    ...current.dimensions,
+                    shape: event.target.value as typeof current.dimensions.shape,
+                  },
+                }))
+              }
+              className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+            >
+              <option value="rectangular">Rectangular</option>
+              <option value="cylindrical">Cilíndrico</option>
+            </select>
+          </label>
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="text-xs uppercase text-slate-400">Orientación</span>
+            <select
+              value={node.dimensions.orientation}
+              onChange={(event) =>
+                updateNode(node.id, (current) => ({
+                  ...current,
+                  dimensions: {
+                    ...current.dimensions,
+                    orientation: event.target.value as typeof current.dimensions.orientation,
+                  },
+                }))
+              }
+              className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+            >
+              <option value="vertical">Vertical</option>
+              <option value="horizontal">Horizontal</option>
+            </select>
+          </label>
+        </div>
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-xs uppercase text-slate-400">Rotación (°)</span>
+          <input
+            type="number"
+            value={rotation}
+            onChange={(event) => {
+              const value = numberOrNull(event.target.value);
+              if (value === null) return;
+              updateNode(node.id, (current) => ({
+                ...current,
+                dimensions: {
+                  ...current.dimensions,
+                  rotation: Math.max(-180, Math.min(180, value)),
+                },
+              }));
+            }}
+            className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+          />
+        </label>
       </div>
     );
   };
@@ -150,6 +309,11 @@ const PropertiesPanel = (): JSX.Element => {
     const elevation = toDisplayLength(node.properties.centerlineElevation, model.units);
     const pumpHead = toDisplayLength(node.properties.addedHead, model.units);
     const requiredNpsh = toDisplayLength(node.properties.requiredNpsh, model.units);
+    const referenceElevation = toDisplayLength(
+      node.properties.referenceElevation ?? node.properties.centerlineElevation,
+      model.units,
+    );
+    const rotation = node.properties.rotation ?? 0;
 
     return (
       <div className="space-y-3 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
@@ -182,6 +346,25 @@ const PropertiesPanel = (): JSX.Element => {
                   properties: {
                     ...current.properties,
                     centerlineElevation: fromDisplayLength(value, model.units),
+                  },
+                }));
+              }}
+              className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+            />
+          </label>
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="text-xs uppercase text-slate-400">Referencia ({lengthUnit})</span>
+            <input
+              type="number"
+              value={referenceElevation}
+              onChange={(event) => {
+                const value = numberOrNull(event.target.value);
+                if (value === null) return;
+                updateNode(node.id, (current) => ({
+                  ...current,
+                  properties: {
+                    ...current.properties,
+                    referenceElevation: fromDisplayLength(value, model.units),
                   },
                 }));
               }}
@@ -294,6 +477,25 @@ const PropertiesPanel = (): JSX.Element => {
               ))}
             </select>
           </label>
+          <label className="flex flex-col gap-1 text-sm">
+            <span className="text-xs uppercase text-slate-400">Rotación (°)</span>
+            <input
+              type="number"
+              value={rotation}
+              onChange={(event) => {
+                const value = numberOrNull(event.target.value);
+                if (value === null) return;
+                updateNode(node.id, (current) => ({
+                  ...current,
+                  properties: {
+                    ...current.properties,
+                    rotation: Math.max(-180, Math.min(180, value)),
+                  },
+                }));
+              }}
+              className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+            />
+          </label>
         </div>
       </div>
     );
@@ -301,6 +503,10 @@ const PropertiesPanel = (): JSX.Element => {
 
   const renderJunctionProperties = (node: JunctionNode) => {
     const elevation = toDisplayLength(node.properties.elevation, model.units);
+    const referenceElevation = toDisplayLength(
+      node.properties.referenceElevation ?? node.properties.elevation,
+      model.units,
+    );
     return (
       <div className="space-y-3 rounded-xl border border-slate-800 bg-slate-900/60 p-4">
         <div className="flex items-center justify-between">
@@ -340,6 +546,25 @@ const PropertiesPanel = (): JSX.Element => {
                 properties: {
                   ...current.properties,
                   elevation: fromDisplayLength(value, model.units),
+                },
+              }));
+            }}
+            className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm"
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          <span className="text-xs uppercase text-slate-400">Referencia ({lengthUnit})</span>
+          <input
+            type="number"
+            value={referenceElevation}
+            onChange={(event) => {
+              const value = numberOrNull(event.target.value);
+              if (value === null) return;
+              updateNode(node.id, (current) => ({
+                ...current,
+                properties: {
+                  ...current.properties,
+                  referenceElevation: fromDisplayLength(value, model.units),
                 },
               }));
             }}

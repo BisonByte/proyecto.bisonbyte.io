@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Layer, Line, Rect, Stage, Text, Circle, Group } from 'react-konva';
+import { Layer, Line, Rect, Stage, Text, Circle, Group, Ellipse } from 'react-konva';
 import type Konva from 'konva';
 import { GRID_SIZE, type SystemNode, type SystemPipe } from '../model/schema';
 import { useModelStore } from '../state/store';
@@ -28,7 +28,12 @@ const useStageSize = () => {
 
 const getNodeCenter = (node: SystemNode) => node.position;
 
-const EditorCanvas = (): JSX.Element => {
+interface EditorCanvasProps {
+  canvasId?: string;
+  stageId?: string;
+}
+
+const EditorCanvas = ({ canvasId = 'system-editor-canvas', stageId = 'system-editor-stage' }: EditorCanvasProps): JSX.Element => {
   const { containerRef, size } = useStageSize();
   const { model, selection, setSelection, updateNode } = useModelStore((state) => ({
     model: state.model,
@@ -59,43 +64,74 @@ const EditorCanvas = (): JSX.Element => {
 
   const renderTank = (node: SystemNode) => {
     if (node.kind !== 'tank') return null;
-    const width = node.dimensions.width;
-    const height = node.dimensions.height;
+    const { width, height, rotation = 0, shape = 'rectangular' } = node.dimensions;
     const x = node.position.x;
     const y = node.position.y;
     const fluidHeight = Math.max(
       0,
       Math.min(height - 12, node.properties.fluidLevel * PIXELS_PER_METER),
     );
+    const isSelected = selection?.type === 'node' && selection.id === node.id;
+    const borderColor = isSelected ? '#38bdf8' : '#475569';
 
     return (
       <>
-        <Rect
+        <Group
           x={x}
           y={y}
-          width={width}
-          height={height}
-          offset={{ x: width / 2, y: height / 2 }}
-          cornerRadius={16}
-          stroke={selection?.type === 'node' && selection.id === node.id ? '#38bdf8' : '#475569'}
-          strokeWidth={selection?.type === 'node' && selection.id === node.id ? 3 : 2}
-          fillLinearGradientStartPoint={{ x: 0, y: height / 2 }}
-          fillLinearGradientEndPoint={{ x: 0, y: height }}
-          fillLinearGradientColorStops={[0, 'rgba(15,23,42,0.4)', 1, 'rgba(15,23,42,0.75)']}
+          rotation={rotation}
+          offset={{ x: 0, y: 0 }}
           draggable
           onDragEnd={handleDragEnd(node)}
           onClick={() => setSelection({ type: 'node', id: node.id })}
           onTap={() => setSelection({ type: 'node', id: node.id })}
-        />
-        <Rect
-          x={x}
-          y={y + height / 2 - fluidHeight}
-          width={width - 20}
-          height={fluidHeight}
-          offset={{ x: width / 2 - 10, y: fluidHeight }}
-          fill="rgba(56,189,248,0.35)"
-          listening={false}
-        />
+        >
+          <Rect
+            x={-width / 2}
+            y={-height / 2}
+            width={width}
+            height={height}
+            cornerRadius={shape === 'cylindrical' ? 40 : 16}
+            stroke={borderColor}
+            strokeWidth={isSelected ? 3 : 2}
+            fillLinearGradientStartPoint={{ x: 0, y: height / 2 }}
+            fillLinearGradientEndPoint={{ x: 0, y: height }}
+            fillLinearGradientColorStops={[0, 'rgba(15,23,42,0.4)', 1, 'rgba(15,23,42,0.75)']}
+          />
+          {shape === 'cylindrical' && (
+            <>
+              <Ellipse
+                x={0}
+                y={-height / 2}
+                radiusX={width / 2}
+                radiusY={24}
+                fillLinearGradientStartPoint={{ x: -width / 2, y: 0 }}
+                fillLinearGradientEndPoint={{ x: width / 2, y: 0 }}
+                fillLinearGradientColorStops={[0, 'rgba(14,116,144,0.2)', 1, 'rgba(8,47,73,0.4)']}
+                listening={false}
+              />
+              <Ellipse
+                x={0}
+                y={height / 2}
+                radiusX={width / 2}
+                radiusY={24}
+                stroke={borderColor}
+                strokeWidth={isSelected ? 3 : 2}
+                fill="rgba(8,47,73,0.35)"
+                listening={false}
+              />
+            </>
+          )}
+          <Rect
+            x={-width / 2 + 10}
+            y={height / 2 - fluidHeight}
+            width={width - 20}
+            height={fluidHeight}
+            cornerRadius={shape === 'cylindrical' ? 30 : 12}
+            fill="rgba(56,189,248,0.35)"
+            listening={false}
+          />
+        </Group>
         <Text
           x={x - width / 2}
           y={y - height / 2 - 28}
@@ -114,40 +150,46 @@ const EditorCanvas = (): JSX.Element => {
     const height = 64;
     const x = node.position.x;
     const y = node.position.y;
+    const rotation = node.properties.rotation ?? 0;
 
     return (
       <>
-        <Rect
+        <Group
           x={x}
           y={y}
-          width={width}
-          height={height}
-          offset={{ x: width / 2, y: height / 2 }}
-          cornerRadius={16}
-          fillLinearGradientStartPoint={{ x: 0, y: 0 }}
-          fillLinearGradientEndPoint={{ x: width, y: height }}
-          fillLinearGradientColorStops={[0, '#0f172a', 1, '#1e293b']}
-          stroke={selection?.type === 'node' && selection.id === node.id ? '#facc15' : '#1e40af'}
-          strokeWidth={selection?.type === 'node' && selection.id === node.id ? 3 : 2}
-          shadowColor="rgba(148,163,184,0.35)"
-          shadowBlur={12}
-          shadowOpacity={0.6}
+          rotation={rotation}
           draggable
           onDragEnd={handleDragEnd(node)}
           onClick={() => setSelection({ type: 'node', id: node.id })}
           onTap={() => setSelection({ type: 'node', id: node.id })}
-        />
-        <Rect
-          x={x - width / 2 + 12}
-          y={y - height / 2 + 12}
-          width={width - 24}
-          height={height - 24}
-          cornerRadius={12}
-          stroke="#38bdf8"
-          strokeWidth={2}
-          opacity={0.4}
-          listening={false}
-        />
+        >
+          <Rect
+            x={-width / 2}
+            y={-height / 2}
+            width={width}
+            height={height}
+            cornerRadius={16}
+            fillLinearGradientStartPoint={{ x: -width / 2, y: -height / 2 }}
+            fillLinearGradientEndPoint={{ x: width / 2, y: height / 2 }}
+            fillLinearGradientColorStops={[0, '#0f172a', 1, '#1e293b']}
+            stroke={selection?.type === 'node' && selection.id === node.id ? '#facc15' : '#1e40af'}
+            strokeWidth={selection?.type === 'node' && selection.id === node.id ? 3 : 2}
+            shadowColor="rgba(148,163,184,0.35)"
+            shadowBlur={12}
+            shadowOpacity={0.6}
+          />
+          <Rect
+            x={-width / 2 + 12}
+            y={-height / 2 + 12}
+            width={width - 24}
+            height={height - 24}
+            cornerRadius={12}
+            stroke="#38bdf8"
+            strokeWidth={2}
+            opacity={0.4}
+            listening={false}
+          />
+        </Group>
         <Text
           x={x - width / 2}
           y={y + height / 2 + 8}
@@ -220,11 +262,11 @@ const EditorCanvas = (): JSX.Element => {
   };
 
   return (
-    <div ref={containerRef} className="relative flex flex-1 bg-slate-950" id="system-editor-canvas">
+    <div ref={containerRef} className="relative flex flex-1 bg-slate-950" id={canvasId}>
       <Stage
         width={size.width}
         height={size.height}
-        id="system-editor-stage"
+        id={stageId}
         className="cursor-crosshair"
         onClick={(event) => {
           if (event.target === event.target.getStage()) {

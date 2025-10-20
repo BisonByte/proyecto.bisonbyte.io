@@ -7,11 +7,7 @@
         "dev": "vite"
     },
     "dependencies": {
-<<<<<<< HEAD
         "convert-units": "^2.3.4",
-=======
-        "convert-units": "^3.0.1",
->>>>>>> d7ffc6e24b75930a72a2aa18cdbc9ecf058e5df3
         "decimal.js": "^10.4.3",
         "html-to-image": "^1.11.11",
         "katex": "^0.16.11",

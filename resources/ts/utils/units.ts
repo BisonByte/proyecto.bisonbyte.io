@@ -28,6 +28,9 @@ export const TEMPERATURE_UNIT: Record<SystemUnits, string> = {
   US: '°F',
 };
 
+const NEWTON_TO_LBF = 0.2248089431;
+const M3_TO_FT3 = 35.31466672148859;
+
 export const toDisplayLength = (valueInMeters: number, units: SystemUnits): number => {
   if (units === 'US') {
     return convert(valueInMeters).from('m').to('ft');
@@ -70,6 +73,20 @@ export const fromDisplayFlow = (value: number, units: SystemUnits): number => {
   return convert(value).from('l/s').to('m3/s');
 };
 
+export const toDisplayVolume = (valueInM3: number, units: SystemUnits): number => {
+  if (units === 'US') {
+    return convert(valueInM3).from('m3').to('ft3');
+  }
+  return valueInM3;
+};
+
+export const fromDisplayVolume = (value: number, units: SystemUnits): number => {
+  if (units === 'US') {
+    return convert(value).from('ft3').to('m3');
+  }
+  return value;
+};
+
 export const toDisplayTemperature = (valueCelsius: number, units: SystemUnits): number => {
   if (units === 'US') {
     return convert(valueCelsius).from('C').to('F');
@@ -82,6 +99,13 @@ export const fromDisplayTemperature = (value: number, units: SystemUnits): numbe
     return convert(value).from('F').to('C');
   }
   return value;
+};
+
+export const toDisplaySpecificWeight = (valueInNm3: number, units: SystemUnits): number => {
+  if (units === 'US') {
+    return (valueInNm3 * NEWTON_TO_LBF) / M3_TO_FT3;
+  }
+  return valueInNm3;
 };
 
 export const formatNumber = (value: number, digits = 2): string =>
