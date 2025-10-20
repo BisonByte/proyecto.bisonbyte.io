@@ -271,6 +271,7 @@ const initializeDashboard = () => {
         dynamicViscosity: document.querySelector('[data-calculator-output="dynamic-viscosity"]'),
         kinematicViscosity: document.querySelector('[data-calculator-output="kinematic-viscosity"]'),
         compressibility: document.querySelector('[data-calculator-output="compressibility"]'),
+        compressibilityUnit: document.querySelector('[data-calculator-output="compressibility-unit"]'),
         compressibilityLabel: document.querySelector('[data-calculator-output="compressibility-label"]'),
         pressureEos: document.querySelector('[data-calculator-output="pressure-eos"]'),
         partialPressure: document.querySelector('[data-calculator-output="partial-pressure"]'),
@@ -319,15 +320,39 @@ const initializeDashboard = () => {
         return `${sign}${magnitude}%`;
     };
 
+    const toSuperscript = (value) => {
+        const map = {
+            '-': '⁻',
+            0: '⁰',
+            1: '¹',
+            2: '²',
+            3: '³',
+            4: '⁴',
+            5: '⁵',
+            6: '⁶',
+            7: '⁷',
+            8: '⁸',
+            9: '⁹',
+        };
+
+        return String(value)
+            .split('')
+            .map((char) => map[char] ?? char)
+            .join('');
+    };
+
     const formatScientific = (value, digits = 2) => {
         if (!Number.isFinite(value) || value === 0) {
             return '0';
         }
 
         const [coefficient, exponent] = value.toExponential(digits).split('e');
-        const normalized = Number.parseFloat(coefficient).toString();
+        const normalized = Number.parseFloat(coefficient).toLocaleString('es-MX', {
+            minimumFractionDigits: Math.max(0, digits),
+            maximumFractionDigits: Math.max(0, digits),
+        });
         const exponentValue = Number.parseInt(exponent, 10);
-        return `${normalized} x 10^${exponentValue}`;
+        return `${normalized} × 10${toSuperscript(exponentValue)}`;
     };
 
     const parseNumber = (value, fallback = 0) => {
@@ -1007,7 +1032,7 @@ const initializeDashboard = () => {
                 return '—';
             }
 
-            return value >= 0.01 ? `${formatFixed(value, 3, 3)}` : formatScientific(value, 2);
+            return value >= 0.01 ? formatFixed(value, 3, 3) : formatScientific(value, 2);
         };
 
         const formatKinematicViscosity = (value) => {
@@ -1015,20 +1040,20 @@ const initializeDashboard = () => {
                 return '—';
             }
 
-            return value >= 1e-4 ? `${formatFixed(value, 5, 5)}` : formatScientific(value, 2);
+            return value >= 1e-4 ? formatFixed(value, 5, 5) : formatScientific(value, 2);
         };
 
         const fluidTypeLabel = result.fluid.type === 'gas' ? 'Gas' : 'Líquido';
         const compressibilityDisplay = (() => {
             if (!Number.isFinite(result.compressibilityValue)) {
-                return '—';
+                return { value: '—', unit: '—' };
             }
 
             if (result.compressibilityType === 'factor') {
-                return formatFixed(result.compressibilityValue, 3, 3);
+                return { value: formatFixed(result.compressibilityValue, 3, 3), unit: 'adim.' };
             }
 
-            return `${formatScientific(result.compressibilityValue, 2)} 1/Pa`;
+            return { value: formatScientific(result.compressibilityValue, 2), unit: 'Pa⁻¹' };
         })();
 
         const temperatureSummary = Number.isFinite(result.deltaT)
@@ -1065,7 +1090,10 @@ const initializeDashboard = () => {
         calculatorOutputs.compressibilityLabel.textContent = result.compressibilityType === 'factor'
             ? 'Compresibilidad (factor Z)'
             : 'Compresibilidad (β)';
-        calculatorOutputs.compressibility.textContent = compressibilityDisplay;
+        calculatorOutputs.compressibility.textContent = compressibilityDisplay.value;
+        if (calculatorOutputs.compressibilityUnit) {
+            calculatorOutputs.compressibilityUnit.textContent = compressibilityDisplay.unit;
+        }
         calculatorOutputs.pressureEos.textContent = Number.isFinite(result.pressureEoS)
             ? formatFixed(result.pressureEoS, 2, 2)
             : '—';
