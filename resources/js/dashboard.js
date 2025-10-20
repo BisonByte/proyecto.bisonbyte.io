@@ -389,9 +389,15 @@ if (root) {
                 return;
             }
 
+            const timeout = window.setTimeout(() => {
+                window.clearInterval(timer);
+                resolve(null);
+            }, 3000);
+
             const timer = window.setInterval(() => {
                 if (typeof window.Chart !== 'undefined') {
                     window.clearInterval(timer);
+                    window.clearTimeout(timeout);
                     resolve(window.Chart);
                 }
             }, 25);
@@ -3211,8 +3217,8 @@ if (root) {
     };
 
     const bootstrap = async () => {
-        await ensureChartReady();
-        seedCharts();
+        const chartReadyPromise = ensureChartReady();
+
         initDesigner();
         applyStatusStyles();
         updateRuntimeDisplay();
@@ -3220,8 +3226,6 @@ if (root) {
         updateFluidCards();
         updateDeviceBadge(deviceInfo);
         startRuntimeTimer();
-        await refreshTelemetry();
-        startTelemetryStream();
 
         if (selectors.toggleButton) {
             selectors.toggleButton.addEventListener('click', togglePump);
@@ -3321,6 +3325,11 @@ if (root) {
             }
             stopTelemetryTimer();
         });
+
+        await chartReadyPromise;
+        seedCharts();
+        await refreshTelemetry();
+        startTelemetryStream();
     };
 
     bootstrap();
