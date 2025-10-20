@@ -1769,4 +1769,8 @@ if (!initializeDashboard()) {
     window.addEventListener('DOMContentLoaded', () => {
         initializeDashboard();
     });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d7ffc6e24b75930a72a2aa18cdbc9ecf058e5df3
