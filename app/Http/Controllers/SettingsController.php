@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
 use App\Services\SettingsRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class SettingsController extends Controller
             'esp32' => $settings['esp32'],
             'demo' => $settings['demo'],
             'status' => $request->session()->get('status'),
+            'devices' => Device::query()->orderByDesc('created_at')->get(),
         ]);
     }
 

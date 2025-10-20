@@ -14,7 +14,15 @@ class PumpSimulationController extends Controller
 
     public function state(Request $request): JsonResponse
     {
-        return response()->json($this->simulator->getPayload($request));
+        $payload = $this->simulator->getPayload($request);
+
+        return response()->json([
+            'state' => $payload['state'],
+            'metricsSeed' => $payload['metricsSeed'],
+            'telemetry' => $payload['telemetry'] ?? null,
+            'measurement' => $payload['measurement'] ?? null,
+            'device' => $payload['device'] ?? null,
+        ]);
     }
 
     public function toggle(Request $request): JsonResponse
@@ -25,6 +33,9 @@ class PumpSimulationController extends Controller
         return response()->json([
             'state' => $state,
             'metricsSeed' => $payload['metricsSeed'],
+            'telemetry' => $payload['telemetry'] ?? null,
+            'measurement' => $payload['measurement'] ?? null,
+            'device' => $payload['device'] ?? null,
         ]);
     }
 }

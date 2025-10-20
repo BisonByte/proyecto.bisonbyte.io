@@ -201,6 +201,75 @@
                     Consejo: comparte estas credenciales solo durante presentaciones controladas. Para la versión final, conecta el panel a un sistema de usuarios real.
                 </div>
             </section>
+
+            <section class="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur lg:col-span-2">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-widest text-white/50">Dispositivos registrados</p>
+                        <h2 class="text-2xl font-semibold text-white">ESP32 detectados</h2>
+                        <p class="mt-2 text-sm text-white/60">
+                            Cada módulo se auto-registra la primera vez que inicia. El listado se actualiza automáticamente cuando un nuevo dispositivo envía su MAC.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                    @if ($devices->isEmpty())
+                        <div class="px-6 py-8 text-center text-sm text-white/60">
+                            Aún no hay dispositivos registrados. Enciende tu ESP32 para que se registre automáticamente.
+                        </div>
+                    @else
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-white/5 text-sm text-white/80">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">ID</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">MAC</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Nombre</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Firmware</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">IP reportada</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Tópico</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Tipo</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Cmd</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Estado</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Último ping</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Última telemetría</th>
+                                        <th class="px-6 py-3 text-left font-semibold uppercase tracking-widest text-white/50">Registrado</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-white/5">
+                                    @foreach ($devices as $device)
+                                        <tr class="hover:bg-white/5">
+                                            <td class="px-6 py-4 font-semibold text-white/80">#{{ $device->id }}</td>
+                                            <td class="px-6 py-4 font-mono text-xs text-cyan-200">{{ $device->mac }}</td>
+                                            <td class="px-6 py-4">{{ $device->name ?? '—' }}</td>
+                                            <td class="px-6 py-4">{{ $device->firmware ?? '—' }}</td>
+                                            <td class="px-6 py-4">{{ $device->ip ?? '—' }}</td>
+                                            <td class="px-6 py-4 text-xs text-white/70">{{ $device->topic ?? '—' }}</td>
+                                            <td class="px-6 py-4 text-xs uppercase tracking-widest text-white/60">{{ strtoupper($device->connection_type ?? 'HTTP') }}</td>
+                                            <td class="px-6 py-4 text-xs font-semibold {{ $device->should_run ? 'text-emerald-300' : 'text-slate-300' }}">
+                                                {{ $device->should_run ? 'ON' : 'OFF' }}
+                                            </td>
+                                            <td class="px-6 py-4 text-xs font-semibold {{ $device->reported_is_on === null ? 'text-white/50' : ($device->reported_is_on ? 'text-emerald-200' : 'text-rose-200') }}">
+                                                {{ $device->reported_is_on === null ? '—' : ($device->reported_is_on ? 'ON' : 'OFF') }}
+                                            </td>
+                                            <td class="px-6 py-4 text-xs text-white/60">
+                                                {{ optional($device->last_seen_at)->diffForHumans() ?? '—' }}
+                                            </td>
+                                            <td class="px-6 py-4 text-xs text-white/60">
+                                                {{ optional($device->last_telemetry_at)->diffForHumans() ?? '—' }}
+                                            </td>
+                                            <td class="px-6 py-4 text-xs text-white/60">
+                                                {{ optional($device->created_at)->format('d/m/Y H:i') }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </section>
         </div>
     </div>
 @endsection

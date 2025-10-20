@@ -36,6 +36,10 @@ class SettingsRepository
             'http_endpoint' => Arr::get($data, 'http_endpoint'),
             'mqtt_topic' => Arr::get($data, 'mqtt_topic'),
             'activation_key' => Arr::get($data, 'activation_key'),
+            'http_state_endpoint' => Arr::get($data, 'http_state_endpoint', Arr::get($settings['esp32'], 'http_state_endpoint')),
+            'http_set_endpoint' => Arr::get($data, 'http_set_endpoint', Arr::get($settings['esp32'], 'http_set_endpoint')),
+            'http_telemetry_endpoint' => Arr::get($data, 'http_telemetry_endpoint', Arr::get($settings['esp32'], 'http_telemetry_endpoint')),
+            'http_poll_seconds' => Arr::get($data, 'http_poll_seconds', Arr::get($settings['esp32'], 'http_poll_seconds', 2)),
         ]);
 
         $this->write($settings);

@@ -25,6 +25,9 @@ class DashboardController extends Controller
         return view('dashboard', [
             'pumpState' => $payload['state'],
             'metricsSeed' => $payload['metricsSeed'],
+            'telemetry' => $payload['telemetry'] ?? [],
+            'measurement' => $payload['measurement'] ?? null,
+            'deviceMeta' => $payload['device'] ?? null,
             'justLoggedIn' => (bool) $request->session()->pull('just_logged_in', false),
             'esp32Config' => $this->settings->getEsp32(),
             'fluidProperties' => $this->fluids->forDashboard(),

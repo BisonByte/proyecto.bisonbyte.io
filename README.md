@@ -55,6 +55,12 @@ ESP32_ACTIVATION_MODE=http
 ESP32_HTTP_ENDPOINT=https://api.ejemplo.com/esp32/activate
 ESP32_MQTT_TOPIC=iot/bisonbyte/pump/control
 ESP32_ACTIVATION_KEY=CLAVE-DEMO-1234
+ESP32_HTTP_STATE_ENDPOINT="${APP_URL}/api/pump/state"
+ESP32_HTTP_SET_ENDPOINT="${APP_URL}/api/pump/set"
+ESP32_HTTP_TELEMETRY_ENDPOINT="${APP_URL}/api/telemetry"
+PIPE_DIAMETER_M=0.032
+PIPE_LENGTH_M=12
+PIPE_ROUGHNESS_M=0.000045
 ```
 
 Puedes modificarlas en tu `.env` para personalizar el acceso de la demo.
@@ -68,12 +74,31 @@ Puedes modificarlas en tu `.env` para personalizar el acceso de la demo.
 5. Compila los assets con `npm run build` (o hazlo en local y sube la carpeta `public/build`).
 6. Ajusta el archivo `.env` con la URL (`APP_URL`) y las credenciales demo.
 
-## ¿Cómo funciona el simulador?
+## ¿Cómo funciona la sincronización?
 
-- **Estado de la bomba**: se guarda en sesión mediante `PumpSimulationService`. El tiempo operativo acumulado se actualiza cada vez que la bomba cambia de estado y continúa incrementando mientras está encendida.
-- **Métricas**: JavaScript genera valores pseudoaleatorios alrededor de un valor base para voltaje, corriente y batería y los refleja en gráficas Chart.js.
-- **Control ON/OFF**: un endpoint (`POST /pump/toggle`) simula el cambio de estado y devuelve la nueva telemetría base. Está protegido por middleware de sesión.
-- **Centro de configuración**: desde el dashboard abre el botón `Configuración` (ruta `/settings`) para ajustar credenciales demo y parámetros del ESP32. Los cambios se almacenan en `storage/app/settings.json` y se aplican inmediatamente.
+- **Registro automático**: el ESP32 envía su MAC en `POST /api/devices/register`, obtiene `device_id` y `token`, y queda disponible para control remoto.
+- **Comandos HTTP push/pull**: cada 2&nbsp;s el firmware consulta `GET /api/pump/state?device_id&token` para conocer la orden vigente. Laravel actualiza ese objetivo cuando el usuario pulsa el switch (o mediante `POST /api/pump/set`).
+- **Telemetría en el dashboard**: el dispositivo reporta métricas con `POST /api/telemetry`. El frontend deja de generar números aleatorios y consume en tiempo real la última muestra (con fallback simulado si no hay hardware).
+- **Centro de configuración**: en `/settings` puedes revisar el listado de dispositivos registrados, su último ping, telemetría y los parámetros editables; la información persiste en `storage/app/settings.json`.
+
+## Persistencia de telemetría y eventos
+
+- `devices` almacena identidad, firmware, caducidad del token y tipo de conexión (`http` o `mqtt`).
+- Cada `POST /api/telemetry` genera un registro en `measurements` con caudal, presión, temperatura, potencia hidráulica y el resultado completo de los cálculos de fluidos.
+- Cuando el ESP32 informa cambios de estado (`is_on`), se registra una entrada en `pump_events` para auditar encendidos/apagados.
+- El procesamiento ocurre en segundo plano mediante el job `ProcessTelemetry`. En entornos productivos ejecuta `php artisan queue:work` o configura el worker correspondiente.
+
+## Flujo de cálculo automático
+
+- `FluidCalculationService` toma el caudal reportado, la geometría de la tubería (`PIPE_*` en `.env`) y las propiedades del fluido seleccionado para estimar régimen (Re), factor de fricción, ΔP, carga y potencia hidráulica.
+- Los resultados se persisten junto a la medición y se muestran en el dashboard como tarjetas dinámicas para el operador.
+- Ajusta los valores base en `config/hydraulics.php` o sobreescríbelos vía variables de entorno.
+
+## Streaming en vivo (SSE)
+
+- El dashboard abre una conexión `EventSource` contra `GET /telemetry/stream` (autenticado por sesión) y recibe eventos `telemetry.updated` sin refrescar la página.
+- Si el navegador no soporta SSE o la conexión falla, se activa un polling de respaldo cada 5&nbsp;s.
+- Los endpoints críticos están protegidos por tokens únicos por dispositivo y por Laravel Sanctum (`auth:sanctum` + middleware `role:admin`).
 
 ## Próximos pasos sugeridos
 
