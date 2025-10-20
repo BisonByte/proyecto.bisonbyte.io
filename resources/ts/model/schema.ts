@@ -14,15 +14,24 @@ const baseNodeSchema = z.object({
   position: pointSchema,
 });
 
+const tankDimensionsSchema = z.object({
+  width: z.number().positive(),
+  height: z.number().positive(),
+  shape: z.enum(['rectangular', 'cylindrical']).default('rectangular'),
+  orientation: z.enum(['vertical', 'horizontal']).default('vertical'),
+  rotation: z.number().default(0),
+});
+
 export const tankNodeSchema = baseNodeSchema.extend({
   kind: z.literal('tank'),
-  dimensions: z.object({
-    width: z.number().positive(),
-    height: z.number().positive(),
-  }),
+  dimensions: tankDimensionsSchema,
   properties: z.object({
     baseElevation: z.number(),
+    referenceElevation: z.number().default(0),
     fluidLevel: z.number().nonnegative(),
+    volume: z.number().nonnegative().default(0),
+    isSealed: z.boolean().default(false),
+    gasPressure: z.number().nonnegative().default(101325),
     operatingTemperature: z.number().optional(),
   }),
 });
@@ -31,11 +40,13 @@ export const pumpNodeSchema = baseNodeSchema.extend({
   kind: z.literal('pump'),
   properties: z.object({
     centerlineElevation: z.number(),
+    referenceElevation: z.number().default(0),
     addedHead: z.number().nonnegative(),
     requiredNpsh: z.number().nonnegative(),
     efficiency: z.number().min(0).max(1),
     suctionNodeId: z.string(),
     dischargeNodeId: z.string(),
+    rotation: z.number().default(0),
   }),
 });
 
@@ -44,6 +55,7 @@ export const junctionNodeSchema = baseNodeSchema.extend({
   properties: z.object({
     elevation: z.number(),
     demand: z.number().nonnegative().default(0),
+    referenceElevation: z.number().default(0),
   }),
 });
 
@@ -96,10 +108,20 @@ export const createInitialModel = (): SystemModel => ({
       kind: 'tank',
       name: 'Tanque de succión',
       position: { x: 160, y: 260 },
-      dimensions: { width: 160, height: 220 },
+      dimensions: {
+        width: 160,
+        height: 220,
+        shape: 'rectangular',
+        orientation: 'vertical',
+        rotation: 0,
+      },
       properties: {
         baseElevation: 0,
+        referenceElevation: 0,
         fluidLevel: 4,
+        volume: 12,
+        isSealed: false,
+        gasPressure: 101325,
         operatingTemperature: 20,
       },
     },
@@ -110,11 +132,13 @@ export const createInitialModel = (): SystemModel => ({
       position: { x: 420, y: 320 },
       properties: {
         centerlineElevation: 0.5,
+        referenceElevation: 0,
         addedHead: 20,
         requiredNpsh: 3,
         efficiency: 0.72,
         suctionNodeId: 'tank-1',
         dischargeNodeId: 'junction-1',
+        rotation: 0,
       },
     },
     {
@@ -125,6 +149,7 @@ export const createInitialModel = (): SystemModel => ({
       properties: {
         elevation: 12,
         demand: 0.01,
+        referenceElevation: 12,
       },
     },
   ],

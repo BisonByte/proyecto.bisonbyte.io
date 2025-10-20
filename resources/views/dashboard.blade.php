@@ -6,6 +6,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
 @endpush
 
+@push('scripts')
+    @vite('resources/ts/dashboard-designer.tsx')
+@endpush
+
 @section('content')
     @php
         $isOn = $pumpState['isOn'];
@@ -505,6 +509,8 @@
                     </div>
                 </div>
 
+
+                <div id="hydraulic-designer-root"></div>
 
                 <div class="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
                     <div class="flex flex-wrap items-center justify-between gap-4">
@@ -1238,7 +1244,3 @@
 
 </div>
 @endsection
-<<<<<<< HEAD
-=======
-
->>>>>>> d7ffc6e24b75930a72a2aa18cdbc9ecf058e5df3

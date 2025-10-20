@@ -5,6 +5,7 @@ import {
   type TankNode,
   type JunctionNode,
   type SystemPipe,
+  type SystemNode,
 } from '../model/schema';
 import { getFluidById } from '../lib/fluidCatalog';
 
@@ -34,6 +35,19 @@ export interface HydraulicsResult {
   npsha: number; // m
   requiredNpsh: number; // m
   pipePerformances: Record<string, PipePerformance>;
+  nodeSummaries: NodeSummary[];
+}
+
+export interface NodeSummary {
+  id: string;
+  label: string;
+  kind: 'tank' | 'tank-surface' | 'pump-suction' | 'pump-discharge' | 'junction';
+  elevation: number; // m
+  referenceElevation: number; // m
+  absolutePressure: number; // Pa
+  gaugePressure: number; // Pa
+  specificWeight: number; // N/m^3
+  explanation: string;
 }
 
 export interface ValidationAlert {
@@ -55,6 +69,40 @@ const isJunction = (node: unknown): node is JunctionNode =>
   Boolean(node) && (node as JunctionNode).kind === 'junction';
 
 const decimalZero = new Decimal(0);
+
+const getNodeElevation = (node: SystemNode): number => {
+  if (isTank(node)) {
+    return node.properties.baseElevation;
+  }
+  if (isPump(node)) {
+    return node.properties.centerlineElevation;
+  }
+  if (isJunction(node)) {
+    return node.properties.elevation;
+  }
+  return 0;
+};
+
+const getReferenceElevation = (node: SystemNode): number => {
+  if (isTank(node)) {
+    return node.properties.referenceElevation ?? node.properties.baseElevation;
+  }
+  if (isPump(node)) {
+    return node.properties.referenceElevation ?? node.properties.centerlineElevation;
+  }
+  if (isJunction(node)) {
+    return node.properties.referenceElevation ?? node.properties.elevation;
+  }
+  return getNodeElevation(node);
+};
+
+const getTankSurfaceElevation = (tank: TankNode): number =>
+  tank.properties.baseElevation + tank.properties.fluidLevel;
+
+const getTankSurfacePressure = (tank: TankNode, ambient: Decimal): Decimal =>
+  tank.properties.isSealed
+    ? new Decimal(tank.properties.gasPressure ?? ambient.toNumber())
+    : new Decimal(ambient);
 
 const calculatePipePerformance = (
   pipe: SystemPipe,
@@ -122,6 +170,7 @@ export const computeHydraulics = (
         npsha: 0,
         requiredNpsh: 0,
         pipePerformances: {},
+        nodeSummaries: [],
       },
       alerts: [
         {
@@ -176,36 +225,217 @@ export const computeHydraulics = (
     pipePerformances[pipe.id] = performance;
   }
 
+  const ambientPressure = new Decimal(model.ambientPressure);
+  const gamma = new Decimal(fluid.density * GRAVITY);
+
   const suctionSurfaceElevation = suctionNode && isTank(suctionNode)
-    ? suctionNode.properties.baseElevation + suctionNode.properties.fluidLevel
+    ? getTankSurfaceElevation(suctionNode)
     : suctionNode && isJunction(suctionNode)
       ? suctionNode.properties.elevation
       : 0;
 
-  const dischargeElevation = dischargeNode && isTank(dischargeNode)
-    ? dischargeNode.properties.baseElevation + dischargeNode.properties.fluidLevel
+  const suctionSurfacePressure = suctionNode && isTank(suctionNode)
+    ? getTankSurfacePressure(suctionNode, ambientPressure)
+    : new Decimal(ambientPressure);
+
+  const dischargeSurfaceElevation = dischargeNode && isTank(dischargeNode)
+    ? getTankSurfaceElevation(dischargeNode)
     : dischargeNode && isJunction(dischargeNode)
       ? dischargeNode.properties.elevation
       : 0;
 
+  const dischargeConnectionElevation = dischargeNode
+    ? getNodeElevation(dischargeNode)
+    : dischargeSurfaceElevation;
+
   const pumpElevation = pumpNode.properties.centerlineElevation;
   const pumpHead = pumpNode.properties.addedHead;
-  const staticLift = new Decimal(dischargeElevation).minus(suctionSurfaceElevation);
+  const staticLift = new Decimal(dischargeSurfaceElevation).minus(suctionSurfaceElevation);
   const totalDynamicHead = staticLift.plus(suctionLoss).plus(dischargeLoss);
   const energyBalance = new Decimal(pumpHead).minus(totalDynamicHead);
 
-  const gamma = new Decimal(fluid.density * GRAVITY);
-  const ambientPressure = new Decimal(model.ambientPressure);
   const suctionHead = new Decimal(suctionSurfaceElevation).minus(pumpElevation).minus(suctionLoss);
-  const suctionPressure = ambientPressure.plus(gamma.times(suctionHead));
-  const dischargeHead = new Decimal(dischargeElevation).minus(pumpElevation);
+  const suctionPressure = suctionSurfacePressure.plus(gamma.times(suctionHead));
+  const dischargeHead = new Decimal(dischargeConnectionElevation).minus(pumpElevation);
   const dischargePressureHead = new Decimal(suctionSurfaceElevation)
     .minus(pumpElevation)
     .plus(pumpHead)
     .minus(suctionLoss)
     .minus(dischargeLoss)
     .minus(dischargeHead);
-  const dischargePressure = ambientPressure.plus(gamma.times(dischargePressureHead));
+  const dischargePressure = suctionSurfacePressure.plus(gamma.times(dischargePressureHead));
+
+  const nodeMap = new Map(model.nodes.map((node) => [node.id, node] as const));
+  const adjacency = new Map<string, Array<{ neighbor: string; pipe: SystemPipe; direction: 'forward' | 'backward' }>>();
+
+  for (const pipe of model.pipes) {
+    if (!adjacency.has(pipe.from)) {
+      adjacency.set(pipe.from, []);
+    }
+    adjacency.get(pipe.from)!.push({ neighbor: pipe.to, pipe, direction: 'forward' });
+    if (!adjacency.has(pipe.to)) {
+      adjacency.set(pipe.to, []);
+    }
+    adjacency.get(pipe.to)!.push({ neighbor: pipe.from, pipe, direction: 'backward' });
+  }
+
+  const pressureMap = new Map<string, Decimal>();
+  const traceMap = new Map<string, { from: string; pipeId: string; direction: 'pipe' | 'pump-discharge' }>();
+  const queue: string[] = [];
+
+  for (const node of model.nodes) {
+    if (isTank(node)) {
+      const surfacePressure = getTankSurfacePressure(node, ambientPressure);
+      const basePressure = surfacePressure.plus(gamma.times(node.properties.fluidLevel));
+      pressureMap.set(node.id, basePressure);
+      queue.push(node.id);
+    }
+  }
+
+  pressureMap.set(pumpNode.id, suctionPressure);
+  if (!queue.includes(pumpNode.id)) {
+    queue.push(pumpNode.id);
+  }
+
+  while (queue.length > 0) {
+    const currentId = queue.shift()!;
+    const currentNode = nodeMap.get(currentId);
+    const currentPressure = pressureMap.get(currentId);
+    if (!currentNode || !currentPressure) {
+      continue;
+    }
+
+    const connections = adjacency.get(currentId) ?? [];
+    for (const connection of connections) {
+      if (connection.direction === 'backward') {
+        continue;
+      }
+      const neighborNode = nodeMap.get(connection.neighbor);
+      if (!neighborNode) {
+        continue;
+      }
+
+      const headLoss = new Decimal(pipePerformances[connection.pipe.id]?.headLoss ?? 0);
+      const currentElevation = new Decimal(getNodeElevation(currentNode));
+      const neighborElevation = new Decimal(getNodeElevation(neighborNode));
+      const elevationDelta = currentElevation.minus(neighborElevation);
+
+      let neighborPressure: Decimal;
+      let traceDirection: 'pipe' | 'pump-discharge' = 'pipe';
+
+      if (currentNode.kind === 'pump' && connection.pipe.from === currentId) {
+        neighborPressure = new Decimal(dischargePressure)
+          .plus(gamma.times(elevationDelta))
+          .minus(gamma.times(headLoss));
+        traceDirection = 'pump-discharge';
+      } else {
+        neighborPressure = currentPressure
+          .plus(gamma.times(elevationDelta))
+          .minus(gamma.times(headLoss));
+      }
+
+      if (!pressureMap.has(connection.neighbor)) {
+        pressureMap.set(connection.neighbor, neighborPressure);
+        traceMap.set(connection.neighbor, {
+          from: currentId,
+          pipeId: connection.pipe.id,
+          direction: traceDirection,
+        });
+        queue.push(connection.neighbor);
+      }
+    }
+  }
+
+  const nodeSummaries: NodeSummary[] = [];
+
+  for (const node of model.nodes) {
+    if (isTank(node)) {
+      const surfacePressure = getTankSurfacePressure(node, ambientPressure);
+      const basePressure = pressureMap.get(node.id) ?? surfacePressure.plus(gamma.times(node.properties.fluidLevel));
+      nodeSummaries.push({
+        id: `${node.id}-surface`,
+        label: `${node.name} (superficie)`,
+        kind: 'tank-surface',
+        elevation: getTankSurfaceElevation(node),
+        referenceElevation: getReferenceElevation(node),
+        absolutePressure: surfacePressure.toNumber(),
+        gaugePressure: surfacePressure.minus(ambientPressure).toNumber(),
+        specificWeight: gamma.toNumber(),
+        explanation: node.properties.isSealed
+          ? 'Superficie sellada: presión definida por gas confinado.'
+          : 'Superficie abierta: igual a la presión atmosférica.',
+      });
+      nodeSummaries.push({
+        id: node.id,
+        label: `${node.name} (base)`,
+        kind: 'tank',
+        elevation: node.properties.baseElevation,
+        referenceElevation: getReferenceElevation(node),
+        absolutePressure: basePressure.toNumber(),
+        gaugePressure: basePressure.minus(ambientPressure).toNumber(),
+        specificWeight: gamma.toNumber(),
+        explanation: node.properties.isSealed
+          ? 'P = P_gas + γ·h entre superficie y conexión.'
+          : 'P = P_atm + γ·h entre superficie y conexión.',
+      });
+      continue;
+    }
+
+    if (isJunction(node)) {
+      const absolute = pressureMap.get(node.id) ?? new Decimal(ambientPressure);
+      const trace = traceMap.get(node.id);
+      let explanation = 'Balance hidráulico a partir del nodo precedente.';
+      if (trace) {
+        const upstreamNode = nodeMap.get(trace.from);
+        const headLoss = pipePerformances[trace.pipeId]?.headLoss ?? 0;
+        const deltaElevation = upstreamNode
+          ? getNodeElevation(upstreamNode) - getNodeElevation(node)
+          : 0;
+        explanation =
+          trace.direction === 'pump-discharge'
+            ? `P = P_{descarga bomba} + γ·(${deltaElevation.toFixed(2)}) - γ·(${headLoss.toFixed(2)})`
+            : `P = P_${upstreamNode?.name ?? 'origen'} + γ·(${deltaElevation.toFixed(2)}) - γ·(${headLoss.toFixed(2)})`;
+      }
+
+      nodeSummaries.push({
+        id: node.id,
+        label: node.name,
+        kind: 'junction',
+        elevation: node.properties.elevation,
+        referenceElevation: getReferenceElevation(node),
+        absolutePressure: absolute.toNumber(),
+        gaugePressure: absolute.minus(ambientPressure).toNumber(),
+        specificWeight: gamma.toNumber(),
+        explanation,
+      });
+    }
+  }
+
+  nodeSummaries.push({
+    id: `${pumpNode.id}-suction`,
+    label: `${pumpNode.name} (succión)`,
+    kind: 'pump-suction',
+    elevation: pumpElevation,
+    referenceElevation: getReferenceElevation(pumpNode),
+    absolutePressure: suctionPressure.toNumber(),
+    gaugePressure: suctionPressure.minus(ambientPressure).toNumber(),
+    specificWeight: gamma.toNumber(),
+    explanation: 'Psuc = P_superficie + γ(z_superficie - z_bomba) - γ·h_{L,s}',
+  });
+
+  nodeSummaries.push({
+    id: `${pumpNode.id}-discharge`,
+    label: `${pumpNode.name} (descarga)`,
+    kind: 'pump-discharge',
+    elevation: pumpElevation,
+    referenceElevation: getReferenceElevation(pumpNode),
+    absolutePressure: dischargePressure.toNumber(),
+    gaugePressure: dischargePressure.minus(ambientPressure).toNumber(),
+    specificWeight: gamma.toNumber(),
+    explanation: 'Pdesc = Psuc + γ·H_bomba - γ·(h_{L,s} + h_{L,d})',
+  });
+
+  nodeSummaries.sort((a, b) => b.elevation - a.elevation);
 
   const npsha = suctionPressure.minus(new Decimal(fluid.vaporPressure)).div(gamma);
 
@@ -254,7 +484,7 @@ export const computeHydraulics = (
     pumpAddedHead: pumpHead,
     suctionSurfaceElevation,
     pumpElevation,
-    dischargeElevation,
+    dischargeElevation: dischargeConnectionElevation,
     suctionHead: suctionHead.toNumber(),
     dischargeHead: dischargeHead.toNumber(),
     staticLift: staticLift.toNumber(),
@@ -267,6 +497,7 @@ export const computeHydraulics = (
     npsha: npsha.toNumber(),
     requiredNpsh: pumpNode.properties.requiredNpsh,
     pipePerformances,
+    nodeSummaries,
   };
 
   return { results, alerts };

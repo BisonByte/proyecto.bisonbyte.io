@@ -1,8 +1,12 @@
 import { useCallback, useState } from 'react';
-import { exportDiagramPng, exportReportPdf } from '../utils/exporters';
+import { exportDiagramPng, exportReportHtml, exportReportPdf } from '../utils/exporters';
 import { useModelStore } from '../state/store';
 
-const ExportPanel = (): JSX.Element => {
+interface ExportPanelProps {
+  canvasElementId?: string;
+}
+
+const ExportPanel = ({ canvasElementId = 'system-editor-canvas' }: ExportPanelProps): JSX.Element => {
   const { model, results } = useModelStore((state) => ({
     model: state.model,
     results: state.results,
@@ -10,7 +14,7 @@ const ExportPanel = (): JSX.Element => {
   const [isExporting, setIsExporting] = useState(false);
 
   const handlePng = useCallback(async () => {
-    const container = document.getElementById('system-editor-canvas');
+    const container = document.getElementById(canvasElementId);
     if (!container) {
       return;
     }
@@ -20,10 +24,14 @@ const ExportPanel = (): JSX.Element => {
     } finally {
       setIsExporting(false);
     }
-  }, []);
+  }, [canvasElementId]);
 
   const handlePdf = useCallback(() => {
     exportReportPdf(model, results);
+  }, [model, results]);
+
+  const handleHtml = useCallback(() => {
+    exportReportHtml(model, results);
   }, [model, results]);
 
   return (
@@ -47,6 +55,13 @@ const ExportPanel = (): JSX.Element => {
           className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-100 hover:border-emerald-400 hover:text-emerald-200"
         >
           Exportar reporte (PDF)
+        </button>
+        <button
+          type="button"
+          onClick={handleHtml}
+          className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-100 hover:border-indigo-400 hover:text-indigo-200"
+        >
+          Exportar reporte (HTML)
         </button>
       </div>
     </section>
