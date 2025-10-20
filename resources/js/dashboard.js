@@ -1,6 +1,9 @@
-const root = document.getElementById('dashboard-app');
+const initializeDashboard = () => {
+    const root = document.getElementById('dashboard-app');
+    if (!root) {
+        return false;
+    }
 
-if (root) {
     const parseDataset = (value, fallback = {}) => {
         if (!value) {
             return fallback;
@@ -3333,4 +3336,11 @@ if (root) {
     };
 
     bootstrap();
+    return true;
+};
+
+if (!initializeDashboard()) {
+    window.addEventListener('DOMContentLoaded', () => {
+        initializeDashboard();
+    });
 }
