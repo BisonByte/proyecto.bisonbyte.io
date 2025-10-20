@@ -656,6 +656,16 @@ if (root) {
         selectors.fluidPanel.classList.toggle('hidden', !open);
         selectors.fluidPanel.classList.toggle('flex', open);
         selectors.fluidPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        selectors.fluidOpenButtons.forEach((button) => {
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+
+        if (open) {
+            window.requestAnimationFrame(() => {
+                selectors.fluidPanel?.focus();
+            });
+        }
+
         syncBodyOverflow();
     };
 
@@ -667,6 +677,16 @@ if (root) {
         selectors.calculatorPanel.classList.toggle('hidden', !open);
         selectors.calculatorPanel.classList.toggle('flex', open);
         selectors.calculatorPanel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        selectors.calculatorOpenButtons.forEach((button) => {
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+
+        if (open) {
+            window.requestAnimationFrame(() => {
+                selectors.calculatorPanel?.focus();
+            });
+        }
+
         syncBodyOverflow();
     };
 
@@ -680,8 +700,14 @@ if (root) {
         panel.classList.toggle('hidden', !open);
         panel.classList.toggle('flex', open);
         panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        selectors.designer?.openButtons?.forEach((button) => {
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
         if (open) {
             refreshDesigner({ forceForms: true });
+            window.requestAnimationFrame(() => {
+                panel.focus();
+            });
         }
         syncBodyOverflow();
     };
@@ -3218,6 +3244,18 @@ if (root) {
 
         selectors.calculatorCloseButtons.forEach((button) => {
             button.addEventListener('click', () => toggleCalculatorPanel(false));
+        });
+
+        selectors.fluidOpenButtons.forEach((button) => {
+            button.setAttribute('aria-expanded', 'false');
+        });
+
+        selectors.calculatorOpenButtons.forEach((button) => {
+            button.setAttribute('aria-expanded', 'false');
+        });
+
+        selectors.designer?.openButtons?.forEach((button) => {
+            button.setAttribute('aria-expanded', 'false');
         });
 
         if (selectors.calculatorForm) {

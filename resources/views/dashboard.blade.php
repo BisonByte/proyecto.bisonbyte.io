@@ -165,50 +165,60 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3 self-start lg:self-auto">
-                <button
-                    type="button"
-                    data-designer-open
-                    class="inline-flex items-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-sky-100 transition hover:border-sky-400/60 hover:bg-sky-500/20"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M4 2a1 1 0 00-1 1v6a1 1 0 001 1h1.382l1.447 3.894A1 1 0 007.764 14h4.472a1 1 0 00.935-.605L15.166 10H16a1 1 0 001-1V3a1 1 0 00-1-1H4zm5 2h2a1 1 0 010 2H9a1 1 0 010-2z" /></svg>
-                    Diseñador hidráulico
-                </button>
-                <button
-                    type="button"
-                    data-calculator-open
-                    class="inline-flex items-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-500/20"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h8v2H6V4zm0 4h2v2H6V8zm0 4h2v2H6v-2zm4-4h4v2h-4V8zm0 4h4v2h-4v-2z"/></svg>
-                    Calculadora de fluidos
-                </button>
-                <a
-                    href="{{ route('settings.edit') }}"
-                    class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.272a1 1 0 00-1.966 0l-.208 1.248a7.032 7.032 0 00-1.538.889l-1.15-.459a1 1 0 00-1.115.324L4.12 5.16a1 1 0 00.004 1.23l.796.98a6.99 6.99 0 000 1.26l-.796.98a1 1 0 00-.003 1.23l1.89 2.036a1 1 0 001.114.324l1.15-.459c.482.36 1 .662 1.538.889l.208 1.248a1 1 0 001.966 0l.208-1.248a7.046 7.046 0 001.538-.889l1.15.459a1 1 0 001.114-.324l1.89-2.036a1 1 0 00-.003-1.23l-.796-.98a6.99 6.99 0 000-1.26l.796-.98a1 1 0 00.004-1.23l-1.89-2.036a1 1 0 00-1.115-.324l-1.15.459a7.046 7.046 0 00-1.538-.889l-.208-1.248zM10 12a2 2 0 110-4 2 2 0 010 4z" /></svg>
-                    Configuración
-                </a>
-                <span
-                    data-device-badge
-                    class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-white/70"
-                >
-                    @if ($deviceMeta)
-                        ESP32 #{{ $deviceMeta['id'] }} • {{ $deviceMeta['lastSeenAt'] ? \Illuminate\Support\Carbon::parse($deviceMeta['lastSeenAt'])->diffForHumans() : 'registrado' }}
-                    @else
-                        Esperando registro del ESP32
-                    @endif
-                </span>
-                <form action="{{ route('logout') }}" method="POST" class="ml-auto">
-                    @csrf
+            <div class="flex w-full flex-col gap-4 self-stretch lg:w-auto lg:max-w-md">
+                <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
                     <button
-                        type="submit"
-                        class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/80 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-200"
+                        type="button"
+                        data-designer-open
+                        aria-controls="designer-panel"
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-sky-500/40 bg-sky-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-sky-100 transition hover:border-sky-400/60 hover:bg-sky-500/20 sm:w-auto sm:justify-start"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h5A1.5 1.5 0 0111 4.5v1a.5.5 0 01-1 0v-1a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h5a.5.5 0 00.5-.5v-1a.5.5 0 011 0v1A1.5 1.5 0 019.5 17h-5A1.5 1.5 0 013 15.5v-11zM13.854 6.146a.5.5 0 10-.708.708L14.293 8H8.5a.5.5 0 000 1h5.793l-1.147 1.146a.5.5 0 10.708.708l2-2a.5.5 0 000-.708l-2-2z" clip-rule="evenodd" /></svg>
-                        Salir
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M4 2a1 1 0 00-1 1v6a1 1 0 001 1h1.382l1.447 3.894A1 1 0 007.764 14h4.472a1 1 0 00.935-.605L15.166 10H16a1 1 0 001-1V3a1 1 0 00-1-1H4zm5 2h2a1 1 0 010 2H9a1 1 0 010-2z" /></svg>
+                        Diseñador hidráulico
                     </button>
-                </form>
+                    <button
+                        type="button"
+                        data-calculator-open
+                        aria-controls="calculator-panel"
+                        aria-haspopup="dialog"
+                        aria-expanded="false"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-500/20 sm:w-auto sm:justify-start"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm0 2h8v2H6V4zm0 4h2v2H6V8zm0 4h2v2H6v-2zm4-4h4v2h-4V8zm0 4h4v2h-4v-2z"/></svg>
+                        Calculadora de fluidos
+                    </button>
+                    <a
+                        href="{{ route('settings.edit') }}"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20 sm:w-auto sm:justify-start"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M11.983 1.272a1 1 0 00-1.966 0l-.208 1.248a7.032 7.032 0 00-1.538.889l-1.15-.459a1 1 0 00-1.115.324L4.12 5.16a1 1 0 00.004 1.23l.796.98a6.99 6.99 0 000 1.26l-.796.98a1 1 0 00-.003 1.23l1.89 2.036a1 1 0 001.114.324l1.15-.459c.482.36 1 .662 1.538.889l.208 1.248a1 1 0 001.966 0l.208-1.248a7.046 7.046 0 001.538-.889l1.15.459a1 1 0 001.114-.324l1.89-2.036a1 1 0 00-.003-1.23l-.796-.98a6.99 6.99 0 000-1.26l.796-.98a1 1 0 00.004-1.23l-1.89-2.036a1 1 0 00-1.115-.324l-1.15.459a7.046 7.046 0 00-1.538-.889l-.208-1.248zM10 12a2 2 0 110-4 2 2 0 010 4z" /></svg>
+                        Configuración
+                    </a>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+                    <span
+                        data-device-badge
+                        class="w-full rounded-full border border-white/10 bg-white/5 px-4 py-2 text-center text-xs font-medium text-white/70 sm:w-auto sm:text-right"
+                    >
+                        @if ($deviceMeta)
+                            ESP32 #{{ $deviceMeta['id'] }} • {{ $deviceMeta['lastSeenAt'] ? \Illuminate\Support\Carbon::parse($deviceMeta['lastSeenAt'])->diffForHumans() : 'registrado' }}
+                        @else
+                            Esperando registro del ESP32
+                        @endif
+                    </span>
+                    <form action="{{ route('logout') }}" method="POST" class="w-full sm:ml-4 sm:w-auto">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white/80 transition hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-200 sm:w-auto"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4.5A1.5 1.5 0 014.5 3h5A1.5 1.5 0 0111 4.5v1a.5.5 0 01-1 0v-1a.5.5 0 00-.5-.5h-5a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h5a.5.5 0 00.5-.5v-1a.5.5 0 011 0v1A1.5 1.5 0 019.5 17h-5A1.5 1.5 0 013 15.5v-11zM13.854 6.146a.5.5 0 10-.708.708L14.293 8H8.5a.5.5 0 000 1h5.793l-1.147 1.146a.5.5 0 10.708.708l2-2a.5.5 0 000-.708l-2-2z" clip-rule="evenodd" /></svg>
+                            Salir
+                        </button>
+                    </form>
+                </div>
             </div>
         </header>
 
@@ -399,6 +409,9 @@
                             <button
                                 type="button"
                                 data-fluid-open
+                                aria-controls="fluid-panel"
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
                                 class="inline-flex items-center gap-2 rounded-full border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-cyan-100 transition hover:border-cyan-400/60 hover:bg-cyan-500/20"
                             >
                                 Configurar fluido
@@ -616,15 +629,20 @@
 
     <div
         data-fluid-panel
+        id="fluid-panel"
         class="fixed inset-0 z-50 hidden items-center justify-center px-4 py-6"
+        role="dialog"
+        aria-modal="true"
         aria-hidden="true"
+        aria-labelledby="fluid-panel-title"
+        tabindex="-1"
     >
         <div data-fluid-close class="absolute inset-0 bg-slate-950/80"></div>
         <div class="relative z-10 w-full max-w-2xl rounded-2xl border border-slate-800 bg-slate-950/95 shadow-xl shadow-slate-900/40">
             <header class="flex items-start justify-between gap-4 border-b border-slate-800 bg-slate-900/90 px-5 py-4">
                 <div class="space-y-1">
                     <p class="text-[10px] uppercase tracking-[0.3em] text-cyan-300">Selector de fluidos</p>
-                    <h2 class="text-lg font-semibold text-white">{{ $fluidSelection['name'] ?? 'Selecciona un fluido' }}</h2>
+                    <h2 id="fluid-panel-title" class="text-lg font-semibold text-white">{{ $fluidSelection['name'] ?? 'Selecciona un fluido' }}</h2>
                     <p class="text-xs text-slate-300">Puedes cambiar el fluido activo en cualquier momento, los cálculos del panel se actualizan al instante.</p>
                 </div>
                 <button
@@ -748,19 +766,35 @@
 
     <div
         data-designer-panel
+        id="designer-panel"
         class="fixed inset-0 z-50 hidden px-4 py-8 sm:px-8 sm:py-10"
+        role="dialog"
+        aria-modal="true"
         aria-hidden="true"
+        aria-labelledby="designer-panel-title"
+        tabindex="-1"
     >
         <div data-designer-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
         <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col overflow-hidden rounded-3xl border border-sky-500/30 bg-slate-950/95 shadow-[0_40px_120px_-40px_rgba(56,189,248,0.65)] ring-1 ring-white/5">
             <header class="border-b border-white/10 bg-gradient-to-br from-sky-500/15 via-slate-900/90 to-cyan-900/60 px-8 py-8 text-white shadow-[inset_0_-1px_0_0_rgba(148,163,184,0.25)] sm:px-10 sm:py-9">
                 <div class="flex flex-col gap-10 lg:grid lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start lg:gap-14">
                     <div class="space-y-5">
-                        <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-sky-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4 2a1 1 0 00-1 1v6a1 1 0 001 1h1.382l1.447 3.894A1 1 0 007.764 14h4.472a1 1 0 00.935-.605L15.166 10H16a1 1 0 001-1V3a1 1 0 00-1-1H4zm5 2h2a1 1 0 010 2H9a1 1 0 010-2z" /></svg>
-                            Diseñador hidráulico
-                        </span>
-                        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Diseña y verifica tu sistema de tuberías</h2>
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-sky-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M4 2a1 1 0 00-1 1v6a1 1 0 001 1h1.382l1.447 3.894A1 1 0 007.764 14h4.472a1 1 0 00.935-.605L15.166 10H16a1 1 0 001-1V3a1 1 0 00-1-1H4zm5 2h2a1 1 0 010 2H9a1 1 0 010-2z" /></svg>
+                                Diseñador hidráulico
+                            </span>
+                            <button
+                                type="button"
+                                data-designer-close
+                                aria-label="Cerrar diseñador"
+                                class="inline-flex items-center gap-2 rounded-full border border-slate-500/40 bg-slate-900/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-200 transition hover:border-rose-400 hover:bg-rose-500/20 hover:text-rose-100"
+                            >
+                                Cerrar
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 8.586l3.536-3.535a1 1 0 111.414 1.414L11.414 10l3.536 3.535a1 1 0 01-1.414 1.414L10 11.414l-3.535 3.535a1 1 0 01-1.414-1.414L8.586 10 5.05 6.465a1 1 0 111.414-1.414L10 8.586z" clip-rule="evenodd" /></svg>
+                            </button>
+                        </div>
+                        <h2 id="designer-panel-title" class="text-2xl font-semibold tracking-tight sm:text-3xl">Diseña y verifica tu sistema de tuberías</h2>
                         <p class="text-sm leading-relaxed text-slate-100/80">
                             Construye el diagrama de tu tanque, bomba y tubería para estimar presiones usando los principios de Pascal
                             y las ecuaciones hidrostáticas. Captura los parámetros geométricos y valida los resultados antes de ejecutar la instalación.
@@ -1030,8 +1064,13 @@
 
     <div
         data-calculator-panel
+        id="calculator-panel"
         class="fixed inset-0 z-50 hidden px-4 py-8 sm:px-8 sm:py-10"
+        role="dialog"
+        aria-modal="true"
         aria-hidden="true"
+        aria-labelledby="calculator-panel-title"
+        tabindex="-1"
     >
         <div data-calculator-close class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
         <div class="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-3xl border border-cyan-500/20 bg-slate-950/95 shadow-[0_40px_120px_-50px_rgba(8,145,178,0.75)] ring-1 ring-white/5">
@@ -1042,7 +1081,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 11-8 8 8 8 0 018-8zm0 3a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 5zm0 8a1 1 0 100 2 1 1 0 000-2z" /></svg>
                             Calculadora de fluidos
                         </span>
-                        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
+                        <h2 id="calculator-panel-title" class="text-2xl font-semibold tracking-tight sm:text-3xl">Análisis termodinámico integral</h2>
                         <p class="text-sm leading-relaxed text-slate-100/80">
                             Ingresa las condiciones de operación y obtén un resumen profesional de propiedades críticas,
                             tendencias y clasificaciones del fluido seleccionado.
@@ -1479,37 +1518,3 @@
 </div>
 @endsection
 
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const panel = document.querySelector('[data-fluid-panel]');
-            const openers = document.querySelectorAll('[data-fluid-open]');
-            const closers = document.querySelectorAll('[data-fluid-close]');
-
-            if (!panel || openers.length === 0) {
-                return;
-            }
-
-            const togglePanel = (open) => {
-                panel.classList.toggle('hidden', !open);
-                panel.classList.toggle('flex', open);
-                panel.setAttribute('aria-hidden', open ? 'false' : 'true');
-                document.body.classList.toggle('overflow-hidden', open);
-            };
-
-            openers.forEach((button) => {
-                button.addEventListener('click', () => togglePanel(true));
-            });
-
-            closers.forEach((button) => {
-                button.addEventListener('click', () => togglePanel(false));
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && !panel.classList.contains('hidden')) {
-                    togglePanel(false);
-                }
-            });
-        });
-    </script>
-@endpush
