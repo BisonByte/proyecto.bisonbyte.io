@@ -123,7 +123,8 @@ const calculatePipePerformance = (
     return { headLoss: 0, velocity: velocity.toNumber(), reynolds: 0 };
   }
 
-  const roughness = new Decimal(pipe.roughness || 0).max(decimalZero);
+  const roughnessValue = typeof pipe.roughness === 'number' ? pipe.roughness : 0;
+  const roughness = roughnessValue > 0 ? new Decimal(roughnessValue) : decimalZero;
   const relativeRoughness = roughness.div(diameter);
   const term = relativeRoughness
     .div(3.7)
