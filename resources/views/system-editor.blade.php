@@ -3,7 +3,7 @@
 @section('title', 'Editor hidráulico')
 
 @push('scripts')
-    @vite('resources/ts/main.tsx')
+    @vite('resources/ts/hydraulic-designer/main.tsx')
 @endpush
 
 @section('content')
