@@ -1693,13 +1693,21 @@ const initializeDashboard = () => {
 
         selectors.hydraulicAnchorButtons.forEach((anchor) => {
             anchor.addEventListener('click', (event) => {
-                const hydraulicRoot = selectors.hydraulicRoot;
+                if (event.defaultPrevented) {
+                    return;
+                }
+
+                if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                    return;
+                }
+
+                const targetSelector = anchor.dataset.hydraulicTarget ?? '#hydraulic-designer-root';
+                const hydraulicRoot = root.querySelector(targetSelector) ?? selectors.hydraulicRoot;
                 const designerReady = hydraulicRoot && hydraulicRoot.childElementCount > 0;
 
                 if (!designerReady) {
-                    if (hydraulicDesignerUrl) {
-                        event.preventDefault();
-                        window.location.href = hydraulicDesignerUrl;
+                    if (hydraulicDesignerUrl && anchor.getAttribute('href') !== hydraulicDesignerUrl) {
+                        anchor.setAttribute('href', hydraulicDesignerUrl);
                     }
                     return;
                 }
