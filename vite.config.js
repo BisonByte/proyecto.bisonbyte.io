@@ -12,7 +12,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/ts/main.tsx',
+                'resources/ts/hydraulic-designer/main.tsx',
                 'resources/ts/dashboard-designer.tsx',
             ],
             refresh: true,
