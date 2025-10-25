@@ -13,7 +13,12 @@ import {
   toDisplaySpecificWeight,
 } from './units';
 
-(pdfMake as unknown as { vfs: typeof pdfFonts.pdfMake.vfs }).vfs = pdfFonts.pdfMake.vfs;
+const ensurePdfFonts = (): void => {
+  const fonts = (pdfFonts as unknown as { pdfMake?: { vfs?: typeof pdfMake.vfs } }).pdfMake?.vfs;
+  if (fonts && !(pdfMake as { vfs?: typeof fonts }).vfs) {
+    (pdfMake as unknown as { vfs: typeof fonts }).vfs = fonts;
+  }
+};
 
 export const exportDiagramPng = async (element: HTMLElement, fileName = 'esquema-hidraulico.png'): Promise<void> => {
   const dataUrl = await toPng(element, {
@@ -29,6 +34,7 @@ export const exportDiagramPng = async (element: HTMLElement, fileName = 'esquema
 };
 
 export const exportReportPdf = (model: SystemModel, results: HydraulicsResult): void => {
+  ensurePdfFonts();
   const headUnit = HEAD_UNIT[model.units];
   const pressureUnit = PRESSURE_UNIT[model.units];
 

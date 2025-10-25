@@ -5,13 +5,14 @@ import { HEAD_UNIT, formatNumber } from '../utils/units';
 
 const Toolbar = (): JSX.Element => {
   const fluids = useMemo(() => listFluids(), []);
-  const { model, results, setFluid, setUnits, addJunction, addPipe } = useModelStore((state) => ({
+  const { model, results, setFluid, setUnits, addJunction, addPipe, reset } = useModelStore((state) => ({
     model: state.model,
     results: state.results,
     setFluid: state.setFluid,
     setUnits: state.setUnits,
     addJunction: state.addJunction,
     addPipe: state.addPipe,
+    reset: state.reset,
   }));
 
   const [pipeFrom, setPipeFrom] = useState<string>('');
@@ -80,6 +81,13 @@ const Toolbar = (): JSX.Element => {
           </span>
         </div>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => reset()}
+            className="rounded-md border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-medium text-slate-100 hover:border-emerald-400 hover:text-emerald-200"
+          >
+            Restaurar demo
+          </button>
           <button
             type="button"
             onClick={() => addJunction()}
