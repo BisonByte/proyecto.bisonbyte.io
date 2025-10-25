@@ -3,7 +3,17 @@
 @section('title', 'Editor hidráulico')
 
 @push('scripts')
-    @vite('resources/ts/main.tsx')
+    @php
+        $vite = app(\Illuminate\Foundation\Vite::class);
+
+        try {
+            echo $vite('resources/ts/hydraulic-designer/main.tsx');
+        } catch (\Illuminate\Foundation\ViteException $exception) {
+            report($exception);
+
+            echo $vite('resources/ts/main.tsx');
+        }
+    @endphp
 @endpush
 
 @section('content')
