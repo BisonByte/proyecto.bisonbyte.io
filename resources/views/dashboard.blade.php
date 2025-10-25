@@ -184,8 +184,9 @@
                         Calculadora de fluidos
                     </button>
                     <a
-                        href="#hydraulic-designer-root"
+                        href="{{ route('system.editor') }}"
                         data-hydraulic-anchor
+                        data-hydraulic-target="#hydraulic-designer-root"
                         class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-indigo-100 transition hover:border-indigo-400/60 hover:bg-indigo-500/20 sm:w-auto sm:justify-start"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a1 1 0 011-1h10a1 1 0 011 1v3h-2V4H6v12h8v-2h2v3a1 1 0 01-1 1H5a1 1 0 01-1-1V3zm5.293 7.293a1 1 0 011.414 0L12 11.586V9a1 1 0 112 0v5a1 1 0 01-1 1H8a1 1 0 110-2h3.586l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
